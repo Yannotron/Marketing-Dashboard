@@ -1,0 +1,104 @@
+from __future__ import annotations
+
+"""Insights extraction utilities (LLM-backed).
+
+Consumes summariser JSON and returns portfolio-fit insights as strict JSON.
+"""
+
+from typing import List, Dict, Any
+
+import orjson
+from openai import OpenAI
+
+from ..config import settings
+from ..models import Insight, Post
+from ..utils import get_json_logger, retry_with_backoff
+
+
+log = get_json_logger("reddit_pipeline.llm.insights")
+
+
+SYSTEM_PROMPT = "You are a senior B2B marketing strategist in the UK."
+
+
+def _response_format() -> Dict[str, Any]:
+    return {
+        "type": "json_schema",
+        "json_schema": {
+            "name": "insight_munger_schema",
+            "schema": {
+                "type": "object",
+                "additionalProperties": False,
+                "properties": {
+                    "freelancer_actions": {"type": "array", "items": {"type": "string"}},
+                    "client_playbook": {"type": "array", "items": {"type": "string"}},
+                    "measurement": {"type": "array", "items": {"type": "string"}},
+                    "risk_watchouts": {"type": "array", "items": {"type": "string"}},
+                    "draft_titles": {"type": "array", "items": {"type": "string"}},
+                    "confidence": {"type": "number", "minimum": 0.0, "maximum": 1.0},
+                    "short_rationale": {"type": "string"}
+                },
+                "required": [
+                    "freelancer_actions",
+                    "client_playbook",
+                    "measurement",
+                    "risk_watchouts",
+                    "draft_titles",
+                    "confidence",
+                    "short_rationale"
+                ],
+            },
+            "strict": True,
+        },
+    }
+
+
+@retry_with_backoff()
+def _call_openai(messages: List[Dict[str, str]]) -> Dict[str, Any]:
+    client = OpenAI(api_key=settings.openai_api_key)
+    resp = client.chat.completions.create(
+        model=settings.llm_model_munger,
+        messages=messages,
+        response_format=_response_format(),
+        temperature=0.2,
+    )
+    content = resp.choices[0].message.content or "{}"
+    try:
+        return orjson.loads(content)
+    except Exception:
+        return {
+            "freelancer_actions": [],
+            "client_playbook": [],
+            "measurement": [],
+            "risk_watchouts": [],
+            "draft_titles": [],
+            "confidence": 0.0,
+            "short_rationale": content,
+        }
+
+
+def generate_insights_from_summaries(
+    summaries: Dict[str, Dict[str, Any]]
+) -> Dict[str, Dict[str, Any]]:
+    """Generate insights for each post_id given a summariser JSON mapping."""
+
+    log.info("Generating insights", extra={"count": len(summaries)})
+    outputs: Dict[str, Dict[str, Any]] = {}
+    for post_id, payload in summaries.items():
+        messages = [
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {
+                "role": "user",
+                "content": (
+                    "Given the following summariser JSON, return strict JSON with keys: "
+                    "freelancer_actions[], client_playbook[], measurement[], risk_watchouts[], draft_titles[], "
+                    "plus a confidence 0.0–1.0 and short_rationale.\n\n"
+                    + orjson.dumps(payload).decode("utf-8")
+                ),
+            },
+        ]
+        result = _call_openai(messages)
+        outputs[post_id] = result
+    return outputs
+
+
