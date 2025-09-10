@@ -279,13 +279,29 @@ class TestCommutativeOperations:
         """Test that deduplication order doesn't matter for final result."""
         now = datetime.now(UTC)
         posts_a = [
-            Post(id="1", title="A1", score=100, num_comments=50, created_utc=now, subreddit="test", author="user1", url="https://example.com/1", text=""),
-            Post(id="2", title="A2", score=200, num_comments=75, created_utc=now, subreddit="test", author="user2", url="https://example.com/2", text=""),
+            Post(
+                id="1", title="A1", score=100, num_comments=50,
+                created_utc=now, subreddit="test", author="user1",
+                url="https://example.com/1", text=""
+            ),
+            Post(
+                id="2", title="A2", score=200, num_comments=75,
+                created_utc=now, subreddit="test", author="user2",
+                url="https://example.com/2", text=""
+            ),
         ]
         
         posts_b = [
-            Post(id="2", title="B2", score=300, num_comments=100, created_utc=now, subreddit="test", author="user3", url="https://example.com/3", text=""),
-            Post(id="1", title="B1", score=400, num_comments=125, created_utc=now, subreddit="test", author="user4", url="https://example.com/4", text=""),
+            Post(
+                id="2", title="B2", score=300, num_comments=100,
+                created_utc=now, subreddit="test", author="user3",
+                url="https://example.com/3", text=""
+            ),
+            Post(
+                id="1", title="B1", score=400, num_comments=125,
+                created_utc=now, subreddit="test", author="user4",
+                url="https://example.com/4", text=""
+            ),
         ]
         
         # Dedupe A then B
@@ -302,13 +318,29 @@ class TestCommutativeOperations:
         """Test that ranking order doesn't matter for final result."""
         now = datetime.now(UTC)
         posts_a = [
-            Post(id="1", title="A1", score=100, num_comments=50, created_utc=now, subreddit="test", author="user1", url="https://example.com/1", text=""),
-            Post(id="2", title="A2", score=200, num_comments=75, created_utc=now, subreddit="test", author="user2", url="https://example.com/2", text=""),
+            Post(
+                id="1", title="A1", score=100, num_comments=50,
+                created_utc=now, subreddit="test", author="user1",
+                url="https://example.com/1", text=""
+            ),
+            Post(
+                id="2", title="A2", score=200, num_comments=75,
+                created_utc=now, subreddit="test", author="user2",
+                url="https://example.com/2", text=""
+            ),
         ]
         
         posts_b = [
-            Post(id="3", title="B3", score=300, num_comments=100, created_utc=now, subreddit="test", author="user3", url="https://example.com/3", text=""),
-            Post(id="4", title="B4", score=400, num_comments=125, created_utc=now, subreddit="test", author="user4", url="https://example.com/4", text=""),
+            Post(
+                id="3", title="B3", score=300, num_comments=100,
+                created_utc=now, subreddit="test", author="user3",
+                url="https://example.com/3", text=""
+            ),
+            Post(
+                id="4", title="B4", score=400, num_comments=125,
+                created_utc=now, subreddit="test", author="user4",
+                url="https://example.com/4", text=""
+            ),
         ]
         
         # Rank A then B

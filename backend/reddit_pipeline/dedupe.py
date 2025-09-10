@@ -1,7 +1,6 @@
-from __future__ import annotations
-
 """Dedupe utilities for posts (placeholder)."""
 
+from __future__ import annotations
 
 from .models import Post
 

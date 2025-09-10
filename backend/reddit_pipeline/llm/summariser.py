@@ -1,9 +1,9 @@
-from __future__ import annotations
-
 """Summarisation utilities (LLM-backed).
 
 Strict-JSON output per spec. Uses OpenAI SDK with retries and truncation.
 """
+
+from __future__ import annotations
 
 from typing import Any
 
@@ -34,7 +34,8 @@ def _build_user_content(post: Post, top_comments: list[dict[str, Any]]) -> str:
         f"- [score {c.get('score', 0)}] {c.get('body','')}" for c in top_comments
     )
     return (
-        f"Post title:\n{title}\n\nPost selftext:\n{body}\n\nTop comments (truncated):\n{comments_str}"
+        f"Post title:\n{title}\n\nPost selftext:\n{body}\n\n"
+        f"Top comments (truncated):\n{comments_str}"
     )
 
 
@@ -86,7 +87,16 @@ def _call_openai(messages: list[dict[str, str]]) -> dict[str, Any]:
         return orjson.loads(content)
     except Exception:
         # As a fallback, wrap as string to maintain strictness for storage.
-        return {"summary": content, "pain_points": [], "recommendations": [], "segments": [], "tools_mentioned": [], "contrarian_take": "", "key_metrics": [], "sources": []}
+        return {
+            "summary": content,
+            "pain_points": [],
+            "recommendations": [],
+            "segments": [],
+            "tools_mentioned": [],
+            "contrarian_take": "",
+            "key_metrics": [],
+            "sources": []
+        }
 
 
 def summarise_posts_with_comments(
@@ -123,8 +133,9 @@ def summarise_posts_with_comments(
                 "role": "user",
                 "content": (
                     "Provide post title + selftext + top comments (with scores).\n"
-                    "Return strict JSON with keys: summary, pain_points[], recommendations[], segments[], "
-                    "tools_mentioned[], contrarian_take, key_metrics[], sources[].\n\n"
+                    "Return strict JSON with keys: summary, pain_points[], "
+                    "recommendations[], segments[], tools_mentioned[], contrarian_take, "
+                    "key_metrics[], sources[].\n\n"
                     + user_content
                 ),
             },

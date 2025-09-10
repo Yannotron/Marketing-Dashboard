@@ -1,6 +1,6 @@
-from __future__ import annotations
-
 """Utility helpers for retries, backoff, and JSON logging."""
+
+from __future__ import annotations
 
 import json
 import logging

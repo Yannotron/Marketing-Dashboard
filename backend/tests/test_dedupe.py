@@ -165,11 +165,31 @@ class TestDedupePosts:
         """Test that deduplication preserves order of first occurrences."""
         now = datetime.now(UTC)
         posts = [
-            Post(id="3", title="Third", score=300, num_comments=30, created_utc=now, subreddit="test", author="user3", url="https://example.com/3", text=""),
-            Post(id="1", title="First", score=100, num_comments=10, created_utc=now, subreddit="test", author="user1", url="https://example.com/1", text=""),
-            Post(id="2", title="Second", score=200, num_comments=20, created_utc=now, subreddit="test", author="user2", url="https://example.com/2", text=""),
-            Post(id="1", title="First Duplicate", score=150, num_comments=15, created_utc=now, subreddit="test", author="user4", url="https://example.com/4", text=""),
-            Post(id="2", title="Second Duplicate", score=250, num_comments=25, created_utc=now, subreddit="test", author="user5", url="https://example.com/5", text=""),
+            Post(
+                id="3", title="Third", score=300, num_comments=30,
+                created_utc=now, subreddit="test", author="user3",
+                url="https://example.com/3", text=""
+            ),
+            Post(
+                id="1", title="First", score=100, num_comments=10,
+                created_utc=now, subreddit="test", author="user1",
+                url="https://example.com/1", text=""
+            ),
+            Post(
+                id="2", title="Second", score=200, num_comments=20,
+                created_utc=now, subreddit="test", author="user2",
+                url="https://example.com/2", text=""
+            ),
+            Post(
+                id="1", title="First Duplicate", score=150, num_comments=15,
+                created_utc=now, subreddit="test", author="user4",
+                url="https://example.com/4", text=""
+            ),
+            Post(
+                id="2", title="Second Duplicate", score=250, num_comments=25,
+                created_utc=now, subreddit="test", author="user5",
+                url="https://example.com/5", text=""
+            ),
         ]
         
         deduped = dedupe_posts(posts)

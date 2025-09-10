@@ -1,10 +1,10 @@
-from __future__ import annotations
-
 """Pipeline orchestration entrypoint.
 
 Respects rate limits and retries transient failures with backoff. This file is
 safe to be executed by CI (weekly schedule) and locally for development.
 """
+
+from __future__ import annotations
 
 from typing import Any
 

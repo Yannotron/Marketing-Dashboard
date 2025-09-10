@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """Ranking utilities for posts.
 
 Implements a composite ranking score per requirements:
@@ -8,6 +6,8 @@ Implements a composite ranking score per requirements:
 
 All functions are pure and side-effect free for testability.
 """
+
+from __future__ import annotations
 
 from datetime import UTC, datetime
 

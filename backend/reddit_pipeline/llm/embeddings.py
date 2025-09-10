@@ -1,10 +1,9 @@
-from __future__ import annotations
-
 """Embeddings generation utilities (LLM-backed).
 
 Uses text-embedding-3-large by default. Returns list of vectors.
 """
 
+from __future__ import annotations
 
 from openai import OpenAI
 

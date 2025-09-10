@@ -1,9 +1,9 @@
-from __future__ import annotations
-
 """Supabase storage adapter.
 
 All writes must be idempotent (UPSERT) keyed by stable IDs.
 """
+
+from __future__ import annotations
 
 from collections.abc import Iterable
 from typing import Any

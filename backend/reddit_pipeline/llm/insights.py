@@ -1,9 +1,9 @@
-from __future__ import annotations
-
 """Insights extraction utilities (LLM-backed).
 
 Consumes summariser JSON and returns portfolio-fit insights as strict JSON.
 """
+
+from __future__ import annotations
 
 from typing import Any
 

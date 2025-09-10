@@ -365,7 +365,9 @@ class TestEndToEndIntegration:
     @patch('reddit_pipeline.clients.reddit.RedditClient.fetch_posts')
     @patch('reddit_pipeline.clients.reddit.RedditClient.fetch_comments')
     @patch('reddit_pipeline.llm.summariser._call_openai')
-    def test_full_pipeline_integration(self, mock_call_openai, mock_fetch_comments, mock_fetch_posts):
+    def test_full_pipeline_integration(
+        self, mock_call_openai, mock_fetch_comments, mock_fetch_posts
+    ):
         """Test full pipeline integration with mocked dependencies."""
         # Mock Reddit posts
         now = datetime.now(UTC)

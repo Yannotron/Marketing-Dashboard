@@ -129,7 +129,9 @@ class TestRetryWithBackoff:
         """Test that retry works with correct exception types."""
         call_count = 0
         
-        @retry_with_backoff(exceptions=(ValueError, RuntimeError), max_attempts=3, base_delay_seconds=0.01)
+        @retry_with_backoff(
+            exceptions=(ValueError, RuntimeError), max_attempts=3, base_delay_seconds=0.01
+        )
         def func_with_correct_exception():
             nonlocal call_count
             call_count += 1
