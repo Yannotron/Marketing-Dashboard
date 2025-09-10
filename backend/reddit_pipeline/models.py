@@ -14,14 +14,14 @@ class Post(BaseModel):
     """A normalised representation of a social post/item."""
 
     id: str = Field(..., description="Stable, source-specific ID (e.g. Reddit fullname)")
-    source: str = Field(..., description="Source system name, e.g. 'reddit'")
+    source: str = Field(default="reddit", description="Source system name, e.g. 'reddit'")
     title: str
     url: HttpUrl
     author: str
     score: int = 0
     num_comments: int = 0
     created_utc: datetime
-    subreddit_or_topic: str | None = None
+    subreddit: str = Field(..., description="Subreddit or topic name")
     text: str | None = Field(None, description="Raw text; avoid PII beyond usernames")
 
 

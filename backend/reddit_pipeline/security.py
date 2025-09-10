@@ -16,8 +16,8 @@ def strip_pii_from_text(text: str) -> str:
     if not text:
         return text
     
-    # Email pattern - matches common email formats
-    email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    # Email pattern - matches common email formats including Unicode
+    email_pattern = r'\b[\w._%+-]+@[\w.-]+\.[A-Za-z]{2,}\b'
     text = re.sub(email_pattern, '[EMAIL_REDACTED]', text)
     
     # Phone pattern - matches various phone number formats
@@ -89,7 +89,7 @@ def strip_pii_from_post(post: dict[str, Any]) -> dict[str, Any]:
     cleaned_post = post.copy()
     
     # Strip PII from text fields
-    text_fields = ['title', 'text', 'selftext', 'content', 'description']
+    text_fields = ['title', 'text', 'selftext', 'content', 'description', 'body']
     for field in text_fields:
         if field in cleaned_post and isinstance(cleaned_post[field], str):
             cleaned_post[field] = strip_pii_from_text(cleaned_post[field])

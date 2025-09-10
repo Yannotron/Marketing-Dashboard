@@ -17,6 +17,7 @@ def _post(pid: str, score: int, comments: int) -> Post:
         score=score,
         num_comments=comments,
         created_utc=datetime.now(UTC),
+        subreddit="test",
     )
 
 

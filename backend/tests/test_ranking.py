@@ -16,7 +16,7 @@ class TestCompositeRank:
         
         # Base score: 1.0 * 100 + 0.5 * 50 = 125
         # No decay for fresh post
-        assert score == 125.0
+        assert abs(score - 125.0) < 1e-6
 
     def test_with_upvote_ratio(self):
         """Test ranking with upvote ratio bonus."""
@@ -24,7 +24,7 @@ class TestCompositeRank:
         score = composite_rank(score=100, comments=50, upvote_ratio=0.8, created_utc=now)
         
         # Base: 125, ratio bonus: 2.0 * 0.8 = 1.6
-        assert score == 126.6
+        assert abs(score - 126.6) < 1e-6
 
     def test_time_decay(self):
         """Test that older posts get lower scores."""

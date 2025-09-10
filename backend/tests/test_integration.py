@@ -68,10 +68,14 @@ class TestRedditClientIntegration:
             mock_submissions.append(mock_sub)
         
         mock_subreddit.hot.return_value = mock_submissions
-        
+
         # Test client
-        client = RedditClient()
-        posts = client.fetch_posts('test', limit=2)
+        client = RedditClient(
+            client_id="test_id",
+            client_secret="test_secret", 
+            user_agent="test_agent"
+        )
+        posts = client.fetch_top_submissions(['test'], datetime.now(UTC), 2)
         
         # Verify results
         assert len(posts) == 2
@@ -122,7 +126,11 @@ class TestRedditClientIntegration:
         mock_submission.comments.list.return_value = mock_comments
         
         # Test client
-        client = RedditClient()
+        client = RedditClient(
+            client_id="test_id",
+            client_secret="test_secret", 
+            user_agent="test_agent"
+        )
         comments = client.fetch_comments('test1', limit=2)
         
         # Verify results
@@ -141,11 +149,15 @@ class TestRedditClientIntegration:
         mock_reddit = MagicMock()
         mock_reddit_class.return_value = mock_reddit
         mock_reddit.subreddit.side_effect = Exception("API Error")
-        
-        client = RedditClient()
+
+        client = RedditClient(
+            client_id="test_id",
+            client_secret="test_secret", 
+            user_agent="test_agent"
+        )
         
         # Should handle error gracefully
-        posts = client.fetch_posts('test', limit=10)
+        posts = client.fetch_top_submissions(['test'], datetime.now(UTC), 10)
         assert posts == []
 
 
@@ -186,7 +198,7 @@ class TestHackerNewsClientIntegration:
         
         # Test client
         client = HackerNewsClient()
-        posts = client.fetch_posts(limit=2)
+        posts = client.fetch_top(limit=2)
         
         # Verify results
         assert len(posts) == 2
@@ -204,9 +216,9 @@ class TestHackerNewsClientIntegration:
         mock_get.side_effect = Exception("HTTP Error")
         
         client = HackerNewsClient()
-        
+
         # Should handle error gracefully
-        posts = client.fetch_posts(limit=10)
+        posts = client.fetch_top(limit=10)
         assert posts == []
 
 
@@ -247,7 +259,7 @@ class TestProductHuntClientIntegration:
         
         # Test client
         client = ProductHuntClient()
-        posts = client.fetch_posts(limit=2)
+        posts = client.fetch_today(limit=2)
         
         # Verify results
         assert len(posts) == 2
@@ -265,9 +277,9 @@ class TestProductHuntClientIntegration:
         mock_get.side_effect = Exception("HTTP Error")
         
         client = ProductHuntClient()
-        
+
         # Should handle error gracefully
-        posts = client.fetch_posts(limit=10)
+        posts = client.fetch_today(limit=10)
         assert posts == []
 
 
@@ -362,11 +374,11 @@ class TestLLMIntegration:
 class TestEndToEndIntegration:
     """End-to-end integration tests."""
 
-    @patch('reddit_pipeline.clients.reddit.RedditClient.fetch_posts')
+    @patch('reddit_pipeline.clients.reddit.RedditClient.fetch_top_submissions')
     @patch('reddit_pipeline.clients.reddit.RedditClient.fetch_comments')
     @patch('reddit_pipeline.llm.summariser._call_openai')
     def test_full_pipeline_integration(
-        self, mock_call_openai, mock_fetch_comments, mock_fetch_posts
+        self, mock_call_openai, mock_fetch_comments, mock_fetch_top_submissions
     ):
         """Test full pipeline integration with mocked dependencies."""
         # Mock Reddit posts
@@ -384,7 +396,7 @@ class TestEndToEndIntegration:
                 text="Test content 1",
             )
         ]
-        mock_fetch_posts.return_value = mock_posts
+        mock_fetch_top_submissions.return_value = mock_posts
         
         # Mock Reddit comments
         mock_comments = [
@@ -412,8 +424,12 @@ class TestEndToEndIntegration:
         
         # Test Reddit client
         from reddit_pipeline.clients.reddit import RedditClient
-        reddit_client = RedditClient()
-        posts = reddit_client.fetch_posts('test', limit=1)
+        reddit_client = RedditClient(
+            client_id="test_id",
+            client_secret="test_secret", 
+            user_agent="test_agent"
+        )
+        posts = reddit_client.fetch_top_submissions(['test'], datetime.now(UTC), 1)
         assert len(posts) == 1
         assert posts[0].id == "test1"
         
