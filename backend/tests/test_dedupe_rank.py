@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from reddit_pipeline.dedupe import dedupe_posts
 from reddit_pipeline.models import Post
@@ -16,7 +16,7 @@ def _post(pid: str, score: int, comments: int) -> Post:
         author="a",
         score=score,
         num_comments=comments,
-        created_utc=datetime.now(timezone.utc),
+        created_utc=datetime.now(UTC),
     )
 
 

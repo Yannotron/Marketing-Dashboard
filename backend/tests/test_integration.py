@@ -1,11 +1,13 @@
 """Integration tests with mocked clients and VCR-style cassettes."""
 
+from datetime import UTC, datetime
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock, Mock
-from datetime import datetime, timezone
-from reddit_pipeline.clients.reddit import RedditClient
+
 from reddit_pipeline.clients.hackernews import HackerNewsClient
 from reddit_pipeline.clients.producthunt import ProductHuntClient
+from reddit_pipeline.clients.reddit import RedditClient
 from reddit_pipeline.llm.summariser import summarise_posts_with_comments
 from reddit_pipeline.models import Post
 
@@ -288,7 +290,7 @@ class TestLLMIntegration:
         }
         
         # Test data
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         posts = [
             Post(
                 id="test1",
@@ -335,7 +337,7 @@ class TestLLMIntegration:
         mock_call_openai.side_effect = Exception("OpenAI API Error")
         
         # Test data
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         posts = [
             Post(
                 id="test1",
@@ -366,7 +368,7 @@ class TestEndToEndIntegration:
     def test_full_pipeline_integration(self, mock_call_openai, mock_fetch_comments, mock_fetch_posts):
         """Test full pipeline integration with mocked dependencies."""
         # Mock Reddit posts
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         mock_posts = [
             Post(
                 id="test1",
@@ -402,7 +404,6 @@ class TestEndToEndIntegration:
         }
         
         # Test full pipeline
-        from reddit_pipeline.run import run_pipeline
         
         # This would test the full pipeline if we had access to it
         # For now, we test the individual components

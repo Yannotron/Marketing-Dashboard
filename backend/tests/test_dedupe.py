@@ -1,7 +1,7 @@
 """Unit tests for deduplication utilities."""
 
-import pytest
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+
 from reddit_pipeline.dedupe import dedupe_posts
 from reddit_pipeline.models import Post
 
@@ -11,7 +11,7 @@ class TestDedupePosts:
 
     def test_dedupe_no_duplicates(self):
         """Test deduplication with no duplicates."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         posts = [
             Post(
                 id="1",
@@ -45,7 +45,7 @@ class TestDedupePosts:
 
     def test_dedupe_with_duplicates(self):
         """Test deduplication with duplicate IDs."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         posts = [
             Post(
                 id="1",
@@ -93,7 +93,7 @@ class TestDedupePosts:
 
     def test_dedupe_multiple_duplicates(self):
         """Test deduplication with multiple duplicates of same ID."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         posts = [
             Post(
                 id="1",
@@ -144,7 +144,7 @@ class TestDedupePosts:
 
     def test_dedupe_single_post(self):
         """Test deduplication of single post."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         post = Post(
             id="1",
             title="Single post",
@@ -163,7 +163,7 @@ class TestDedupePosts:
 
     def test_dedupe_preserves_order(self):
         """Test that deduplication preserves order of first occurrences."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         posts = [
             Post(id="3", title="Third", score=300, num_comments=30, created_utc=now, subreddit="test", author="user3", url="https://example.com/3", text=""),
             Post(id="1", title="First", score=100, num_comments=10, created_utc=now, subreddit="test", author="user1", url="https://example.com/1", text=""),

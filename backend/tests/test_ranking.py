@@ -1,9 +1,9 @@
 """Unit tests for ranking utilities."""
 
-import pytest
-from datetime import datetime, timezone, timedelta
-from reddit_pipeline.ranking import composite_rank, rank_posts
+from datetime import UTC, datetime, timedelta
+
 from reddit_pipeline.models import Post
+from reddit_pipeline.ranking import composite_rank, rank_posts
 
 
 class TestCompositeRank:
@@ -11,7 +11,7 @@ class TestCompositeRank:
 
     def test_basic_ranking(self):
         """Test basic ranking with score and comments."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         score = composite_rank(score=100, comments=50, upvote_ratio=None, created_utc=now)
         
         # Base score: 1.0 * 100 + 0.5 * 50 = 125
@@ -20,7 +20,7 @@ class TestCompositeRank:
 
     def test_with_upvote_ratio(self):
         """Test ranking with upvote ratio bonus."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         score = composite_rank(score=100, comments=50, upvote_ratio=0.8, created_utc=now)
         
         # Base: 125, ratio bonus: 2.0 * 0.8 = 1.6
@@ -28,7 +28,7 @@ class TestCompositeRank:
 
     def test_time_decay(self):
         """Test that older posts get lower scores."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         fresh = now
         old = now - timedelta(hours=48)  # 48 hours = half-life
         
@@ -41,7 +41,7 @@ class TestCompositeRank:
 
     def test_very_old_post(self):
         """Test very old posts get minimal scores."""
-        very_old = datetime.now(timezone.utc) - timedelta(days=30)
+        very_old = datetime.now(UTC) - timedelta(days=30)
         score = composite_rank(1000, 100, 0.9, very_old)
         
         # Should be very small due to exponential decay
@@ -49,13 +49,13 @@ class TestCompositeRank:
 
     def test_zero_values(self):
         """Test handling of zero values."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         score = composite_rank(score=0, comments=0, upvote_ratio=0.0, created_utc=now)
         assert score == 0.0
 
     def test_negative_values(self):
         """Test handling of negative values."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         score = composite_rank(score=-10, comments=-5, upvote_ratio=-0.1, created_utc=now)
         
         # Should handle negative values gracefully
@@ -67,7 +67,7 @@ class TestRankPosts:
 
     def test_rank_posts_basic(self):
         """Test basic post ranking."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         posts = [
             Post(
                 id="1",
@@ -101,7 +101,7 @@ class TestRankPosts:
 
     def test_rank_posts_same_score_different_comments(self):
         """Test ranking when scores are same but comments differ."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         posts = [
             Post(
                 id="1",
@@ -135,7 +135,7 @@ class TestRankPosts:
 
     def test_rank_posts_time_decay(self):
         """Test that newer posts rank higher with same engagement."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         fresh = now
         old = now - timedelta(hours=24)
         
@@ -177,7 +177,7 @@ class TestRankPosts:
 
     def test_rank_posts_single_post(self):
         """Test ranking single post."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         post = Post(
             id="1",
             title="Single post",

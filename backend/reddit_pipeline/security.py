@@ -1,7 +1,7 @@
 """Security utilities for PII stripping and data sanitization."""
 
 import re
-from typing import Dict, Any, List
+from typing import Any
 
 
 def strip_pii_from_text(text: str) -> str:
@@ -34,7 +34,7 @@ def strip_pii_from_text(text: str) -> str:
     return text
 
 
-def strip_pii_from_comment(comment: Dict[str, Any]) -> Dict[str, Any]:
+def strip_pii_from_comment(comment: dict[str, Any]) -> dict[str, Any]:
     """Strip PII from a comment dictionary.
     
     Args:
@@ -58,7 +58,7 @@ def strip_pii_from_comment(comment: Dict[str, Any]) -> Dict[str, Any]:
     return cleaned_comment
 
 
-def strip_pii_from_comments(comments: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+def strip_pii_from_comments(comments: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Strip PII from a list of comments.
     
     Args:
@@ -73,7 +73,7 @@ def strip_pii_from_comments(comments: List[Dict[str, Any]]) -> List[Dict[str, An
     return [strip_pii_from_comment(comment) for comment in comments]
 
 
-def strip_pii_from_post(post: Dict[str, Any]) -> Dict[str, Any]:
+def strip_pii_from_post(post: dict[str, Any]) -> dict[str, Any]:
     """Strip PII from a post dictionary.
     
     Args:

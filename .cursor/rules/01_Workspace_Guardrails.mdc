@@ -1,0 +1,50 @@
+---
+alwaysApply: true
+---
+# Workspace Guardrails
+
+> Non-negotiable rules for day-to-day coding. Apply to all tasks unless explicitly overridden.
+
+## Coding Pattern Rules
+1. Prefer simple solutions. Avoid introducing new patterns/tech for a bug fix unless necessary.
+2. No duplication. If a new approach replaces old logic, remove the old logic in the same PR.
+3. Environments: dev/test/prod must remain cleanly separated.
+   - Mocks/stubs allowed **only** in tests.
+   - Never add fake data paths to dev or prod.
+4. Only touch code relevant to the task. No unrelated refactors.
+5. File size heuristic: keep files under ~300 LOC when practical; decompose/refactor otherwise.
+6. Avoid one-off scripts in the repo. Use documented commands/CI jobs instead.
+7. Never overwrite `.env` or secrets. Require explicit confirmation before any change.
+8. Before coding, check available tools (e.g., MCP, code runners, linters, formatters) and prefer tool-backed verification over guesswork.
+9. Determinism: constrain model output shape wherever possible (JSON schema below).
+
+## Output Contract (for LLM-generated changes)
+Return a single JSON object:
+{
+  "files": [{ "path": "src/...","contents":"..." }],
+  "tests": [{ "name":"...", "contents":"..." }],
+  "plan": ["..."],
+  "review": { "issues": ["..."], "security_notes": ["..."], "edge_cases": ["..."] },
+  "impact": { "modules": ["..."], "risks": ["..."] },
+  "confidence": "low|medium|high",
+  "notes": "≤2 sentences"
+}
+
+## Refusal Policy
+If a user instruction conflicts with these guardrails (e.g., adding stubs to prod), refuse and explain briefly.
+
+## MCP Tools
+  use of MCP tools when needed.
+- sequential-thinking: use to decompose tasks into ordered steps.
+- brave-search: use to perform web searches for missing context.
+- puppeteer: use to fetch/render dynamic pages via headless browser.
+- context7: use for context summarization/retrieval.
+- magic (@21st-dev/magic): use for custom AI coding assistance.
+- supabase: use for database operations via Supabase.
+
+Do not hard-code API keys in prompts; rely on environment variables.
+# Workspace Guardrails
+
+
+
+Do not hard-code API keys in prompts; rely on environment variables.

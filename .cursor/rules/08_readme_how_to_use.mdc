@@ -1,0 +1,21 @@
+---
+alwaysApply: true
+---
+# How To Use These Guides in Cursor
+
+1) Pin `01_workspace_guardrails.mdc` as your persistent workspace/system prompt.
+2) Keep `02_workflow_plan_and_checks.mdc` open and reference it when starting changes.
+3) Use `06_task_prompts.mdc` to kick off each task (feature, refactor, bugfix, migration).
+4) Apply `03_security_and_env.mdc` rules to any code touching IO, deps, or config.
+5) Use `04_pr_template.mdc` as your PR template.
+6) In CI, call the prompt in `05_ci_llm_evaluator.mdc` to score patches (pairwise or single).
+7) Enforce `07_quality_bar.mdc` before merging.
+# How To Use These Guides in Cursor
+
+1) Pin `01_workspace_guardrails.mdc` as your persistent workspace/system prompt.
+2) Keep `02_workflow_plan_and_checks.mdc` open and reference it when starting changes.
+3) Use `06_task_prompts.mdc` to kick off each task (feature, refactor, bugfix, migration).
+4) Apply `03_security_and_env.mdc` rules to any code touching IO, deps, or config.
+5) Use `04_pr_template.mdc` as your PR template.
+6) In CI, call the prompt in `05_ci_llm_evaluator.mdc` to score patches (pairwise or single).
+7) Enforce `07_quality_bar.mdc` before merging.

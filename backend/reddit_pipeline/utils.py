@@ -6,9 +6,9 @@ import json
 import logging
 import random
 import time
+from collections.abc import Callable
 from functools import wraps
-from typing import Any, Callable, Type, TypeVar
-
+from typing import Any, TypeVar
 
 T = TypeVar("T")
 
@@ -41,7 +41,7 @@ def get_json_logger(name: str) -> logging.Logger:
 
 def retry_with_backoff(
     *,
-    exceptions: tuple[Type[BaseException], ...] = (Exception,),
+    exceptions: tuple[type[BaseException], ...] = (Exception,),
     max_attempts: int = 5,
     base_delay_seconds: float = 0.5,
     max_delay_seconds: float = 8.0,
@@ -60,7 +60,7 @@ def retry_with_backoff(
             while True:
                 try:
                     return func(*args, **kwargs)
-                except exceptions as exc:  # pragma: no cover - behaviour tested separately
+                except exceptions:  # pragma: no cover - behaviour tested separately
                     attempt += 1
                     if attempt >= max_attempts:
                         raise

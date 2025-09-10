@@ -1,12 +1,11 @@
-from __future__ import annotations
-
 """Pydantic models for pipeline inputs/outputs.
 
 These schemas are used across ingestion, processing, and storage layers.
 """
 
+from __future__ import annotations
+
 from datetime import datetime
-from typing import List, Optional
 
 from pydantic import BaseModel, Field, HttpUrl
 
@@ -22,17 +21,17 @@ class Post(BaseModel):
     score: int = 0
     num_comments: int = 0
     created_utc: datetime
-    subreddit_or_topic: Optional[str] = None
-    text: Optional[str] = Field(None, description="Raw text; avoid PII beyond usernames")
+    subreddit_or_topic: str | None = None
+    text: str | None = Field(None, description="Raw text; avoid PII beyond usernames")
 
 
 class Insight(BaseModel):
     """LLM-generated insights for a post or group of posts."""
 
     id: str
-    post_ids: List[str] = Field(default_factory=list)
+    post_ids: list[str] = Field(default_factory=list)
     summary: str
-    topics: List[str] = Field(default_factory=list)
+    topics: list[str] = Field(default_factory=list)
     created_utc: datetime = Field(default_factory=datetime.utcnow)
 
 

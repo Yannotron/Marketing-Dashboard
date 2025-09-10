@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """Configuration module for the Reddit Dashboard pipeline.
 
 Loads settings from environment variables. Never hard-code secrets; use a
@@ -7,7 +5,9 @@ Loads settings from environment variables. Never hard-code secrets; use a
 single `Settings` object to be used across the codebase.
 """
 
-from pydantic import Field, AnyUrl
+from __future__ import annotations
+
+from pydantic import AnyUrl, Field
 from pydantic_settings import BaseSettings
 
 

@@ -1,12 +1,11 @@
-from __future__ import annotations
-
 """Slack notifier client placeholder.
 
 Use for alerting or posting summaries to Slack channels.
 """
 
-from ..utils import get_json_logger, retry_with_backoff
+from __future__ import annotations
 
+from ..utils import get_json_logger, retry_with_backoff
 
 log = get_json_logger("reddit_pipeline.clients.slack")
 

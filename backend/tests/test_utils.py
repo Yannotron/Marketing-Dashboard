@@ -1,9 +1,11 @@
 """Unit tests for utility functions."""
 
-import pytest
 import json
 import time
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
+
+import pytest
+
 from reddit_pipeline.utils import get_json_logger, retry_with_backoff
 
 

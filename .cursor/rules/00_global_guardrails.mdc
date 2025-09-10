@@ -1,0 +1,36 @@
+---
+alwaysApply: true
+---
+
+** Role & rules
+
+You are building a production-grade, privacy-respecting app. Prioritise correctness, explicit error handling, and observability over speed.
+
+Never scrape Reddit HTML. Use official APIs and respect rate limits.
+
+Never hard-code secrets. Use .env in dev and GitHub Secrets in CI.
+
+Default to idempotent scripts; running twice must not duplicate data.
+
+All generated code must include minimal docstrings/comments and basic examples.
+
+Add retry with backoff for network calls; handle 429/5xx gracefully.
+
+Log in structured JSON for the pipeline.
+
+All outputs to Supabase must be UPSERTs keyed by stable IDs.
+
+Assume UK English for copy.
+
+No PII storage from Reddit comments beyond usernames already public; if any comment text is later surfaced in UI, strip emails/phones with a simple regex.
+
+** Quality gates
+
+Backend: ruff + black + mypy + pytest must pass.
+
+Web: eslint + prettier + tsc --noEmit + vitest must pass.
+
+CI must run these on PRs and on the weekly job.
+
+Provide seed fixtures and a runbook (/docs/runbook.md).Global guardrails for Cursor
+

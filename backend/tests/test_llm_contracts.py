@@ -1,10 +1,9 @@
 """Unit tests for LLM JSON contract validation."""
 
-import pytest
+
 import orjson
-from reddit_pipeline.llm.summariser import _response_format, _call_openai
-from reddit_pipeline.models import Post
-from datetime import datetime, timezone
+
+from reddit_pipeline.llm.summariser import _response_format
 
 
 class TestLLMResponseFormat:

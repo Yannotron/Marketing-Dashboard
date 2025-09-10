@@ -1,12 +1,11 @@
 """Unit tests for security utilities and PII stripping."""
 
-import pytest
 from reddit_pipeline.security import (
-    strip_pii_from_text,
+    sanitize_for_display,
     strip_pii_from_comment,
     strip_pii_from_comments,
     strip_pii_from_post,
-    sanitize_for_display,
+    strip_pii_from_text,
     validate_no_pii_remaining,
 )
 

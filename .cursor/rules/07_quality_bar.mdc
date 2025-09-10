@@ -1,0 +1,22 @@
+---
+alwaysApply: true
+---
+
+# Quality Bar
+
+- Code compiles and passes linters/type checks.
+- Tests run locally; CI is green.
+- No unrelated files changed.
+- No mocks/stubs in dev/prod code paths.
+- No secret or `.env` changes without explicit approval.
+- Clear naming, short functions, cohesive modules.
+- Public API changes documented and versioned (if applicable).
+# Quality Bar
+
+- Code compiles and passes linters/type checks.
+- Tests run locally; CI is green.
+- No unrelated files changed.
+- No mocks/stubs in dev/prod code paths.
+- No secret or `.env` changes without explicit approval.
+- Clear naming, short functions, cohesive modules.
+- Public API changes documented and versioned (if applicable).

@@ -1,0 +1,37 @@
+---
+alwaysApply: true
+---
+# Workflow: Plan → Implement → Review → Test → Impact
+
+## 1) Plan
+- Produce a 5–8 step numbered plan before implementation.
+- Identify files, types, interfaces, and test strategy.
+
+## 2) Implement (scoped)
+- Change only files relevant to the plan.
+- Keep files <300 LOC when practical; split otherwise.
+- Reuse existing helpers/utilities to avoid duplication.
+
+## 3) Self-Critique
+- Generate a short review covering:
+  - Correctness (happy path + edge cases)
+  - Security (injection, unsafe eval/exec, dependency risks)
+  - Performance (big-O, hot paths)
+  - Readability (naming, structure)
+- Apply fixes immediately.
+
+## 4) Tests
+- Unit + integration as appropriate.
+- Include regression tests for the reported bug or scenario.
+- Use real inputs where possible; mocks/stubs only inside tests.
+
+## 5) Impact Summary
+- List methods/modules affected.
+- Note potential side-effects and follow-ups (if any).
+- Confirm no dev/prod config or `.env` was altered.
+
+## 6) Tooling
+- Prefer tool-use: linters, type-checkers, code runner, MCP tools.
+- Record any tool outputs that influenced decisions.
+
+> Deliver the JSON contract defined in 01_workspace_guardrails.mdc

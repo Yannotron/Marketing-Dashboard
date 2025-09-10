@@ -1,10 +1,12 @@
 """Property tests for idempotent operations and data consistency."""
 
+from datetime import UTC, datetime
+
 import pytest
-from datetime import datetime, timezone
+
 from reddit_pipeline.dedupe import dedupe_posts
-from reddit_pipeline.ranking import rank_posts
 from reddit_pipeline.models import Post
+from reddit_pipeline.ranking import rank_posts
 
 
 class TestIdempotentOperations:
@@ -12,7 +14,7 @@ class TestIdempotentOperations:
 
     def test_dedupe_idempotent(self):
         """Test that deduplication is idempotent."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         posts = [
             Post(
                 id="1",
@@ -61,7 +63,7 @@ class TestIdempotentOperations:
 
     def test_ranking_idempotent(self):
         """Test that ranking is idempotent."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         posts = [
             Post(
                 id="1",
@@ -99,7 +101,7 @@ class TestIdempotentOperations:
 
     def test_dedupe_then_rank_idempotent(self):
         """Test that dedupe then rank is idempotent."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         posts = [
             Post(
                 id="1",
@@ -152,7 +154,7 @@ class TestDataConsistency:
 
     def test_dedupe_preserves_post_integrity(self):
         """Test that deduplication preserves post data integrity."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         original_post = Post(
             id="1",
             title="Original Post",
@@ -188,7 +190,7 @@ class TestDataConsistency:
 
     def test_ranking_preserves_post_integrity(self):
         """Test that ranking preserves post data integrity."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         posts = [
             Post(
                 id="1",
@@ -246,7 +248,7 @@ class TestDataConsistency:
 
     def test_single_post_handling(self):
         """Test that single posts are handled consistently."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         post = Post(
             id="1",
             title="Single Post",
@@ -275,7 +277,7 @@ class TestCommutativeOperations:
 
     def test_dedupe_commutative(self):
         """Test that deduplication order doesn't matter for final result."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         posts_a = [
             Post(id="1", title="A1", score=100, num_comments=50, created_utc=now, subreddit="test", author="user1", url="https://example.com/1", text=""),
             Post(id="2", title="A2", score=200, num_comments=75, created_utc=now, subreddit="test", author="user2", url="https://example.com/2", text=""),
@@ -298,7 +300,7 @@ class TestCommutativeOperations:
 
     def test_ranking_commutative(self):
         """Test that ranking order doesn't matter for final result."""
-        now = datetime.now(timezone.utc)
+        now = datetime.now(UTC)
         posts_a = [
             Post(id="1", title="A1", score=100, num_comments=50, created_utc=now, subreddit="test", author="user1", url="https://example.com/1", text=""),
             Post(id="2", title="A2", score=200, num_comments=75, created_utc=now, subreddit="test", author="user2", url="https://example.com/2", text=""),

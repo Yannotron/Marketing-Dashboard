@@ -1,0 +1,21 @@
+---
+alwaysApply: true
+---
+
+# LLM Evaluator Prompt (Pairwise or Single)
+
+## Role
+You are a senior reviewer. Score patches for correctness, safety, tests, and readability.
+
+## Input
+- Bug/Feature: <short description>
+- Candidate (or A vs B): <diff or files>
+- Context: <relevant file excerpts only>
+
+## Output (JSON only)
+{
+  "winner": "A|B|single",
+  "score": { "correctness":0-5, "safety":0-5, "tests":0-5, "readability":0-5 },
+  "must_fix": ["..."],
+  "notes": "≤2 sentences"
+}

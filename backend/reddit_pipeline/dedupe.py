@@ -2,15 +2,14 @@ from __future__ import annotations
 
 """Dedupe utilities for posts (placeholder)."""
 
-from typing import Dict, List
 
 from .models import Post
 
 
-def dedupe_posts(posts: List[Post]) -> List[Post]:
+def dedupe_posts(posts: list[Post]) -> list[Post]:
     """Remove duplicates by post `id`. Keeps the first occurrence."""
 
-    seen: Dict[str, Post] = {}
+    seen: dict[str, Post] = {}
     for post in posts:
         if post.id not in seen:
             seen[post.id] = post

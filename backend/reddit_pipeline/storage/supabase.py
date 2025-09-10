@@ -5,11 +5,11 @@ from __future__ import annotations
 All writes must be idempotent (UPSERT) keyed by stable IDs.
 """
 
-from typing import Iterable, List, Dict, Any
+from collections.abc import Iterable
+from typing import Any
 
 from ..models import Post, UpsertResult
 from ..utils import get_json_logger, retry_with_backoff
-
 
 log = get_json_logger("reddit_pipeline.storage.supabase")
 
@@ -30,7 +30,7 @@ class SupabaseStore:
 
 # --- Module-level minimal function signatures (required by spec) ---
 
-def upsert_post(post_dict: Dict[str, Any]) -> None:
+def upsert_post(post_dict: dict[str, Any]) -> None:
     """UPSERT a single post into Supabase.
 
     This is a stub to satisfy the minimal interface. Implement using supabase-py
@@ -40,19 +40,19 @@ def upsert_post(post_dict: Dict[str, Any]) -> None:
     log.info("upsert_post called", extra={"id": post_dict.get("id")})
 
 
-def upsert_comment(comment_dict: Dict[str, Any]) -> None:
+def upsert_comment(comment_dict: dict[str, Any]) -> None:
     """UPSERT a single comment into Supabase (stub)."""
 
     log.info("upsert_comment called", extra={"id": comment_dict.get("id")})
 
 
-def upsert_insight(insight_dict: Dict[str, Any]) -> None:
+def upsert_insight(insight_dict: dict[str, Any]) -> None:
     """UPSERT an insight record into Supabase (stub)."""
 
     log.info("upsert_insight called", extra={"id": insight_dict.get("id")})
 
 
-def upsert_embedding(entity_type: str, entity_id: str, vector: List[float]) -> None:
+def upsert_embedding(entity_type: str, entity_id: str, vector: list[float]) -> None:
     """UPSERT an embedding vector for a post/insight (stub)."""
 
     log.info(

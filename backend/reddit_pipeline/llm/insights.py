@@ -5,15 +5,13 @@ from __future__ import annotations
 Consumes summariser JSON and returns portfolio-fit insights as strict JSON.
 """
 
-from typing import List, Dict, Any
+from typing import Any
 
 import orjson
 from openai import OpenAI
 
 from ..config import settings
-from ..models import Insight, Post
 from ..utils import get_json_logger, retry_with_backoff
-
 
 log = get_json_logger("reddit_pipeline.llm.insights")
 
@@ -21,7 +19,7 @@ log = get_json_logger("reddit_pipeline.llm.insights")
 SYSTEM_PROMPT = "You are a senior B2B marketing strategist in the UK."
 
 
-def _response_format() -> Dict[str, Any]:
+def _response_format() -> dict[str, Any]:
     return {
         "type": "json_schema",
         "json_schema": {
@@ -54,7 +52,7 @@ def _response_format() -> Dict[str, Any]:
 
 
 @retry_with_backoff()
-def _call_openai(messages: List[Dict[str, str]]) -> Dict[str, Any]:
+def _call_openai(messages: list[dict[str, str]]) -> dict[str, Any]:
     client = OpenAI(api_key=settings.openai_api_key)
     resp = client.chat.completions.create(
         model=settings.llm_model_munger,
@@ -78,12 +76,12 @@ def _call_openai(messages: List[Dict[str, str]]) -> Dict[str, Any]:
 
 
 def generate_insights_from_summaries(
-    summaries: Dict[str, Dict[str, Any]]
-) -> Dict[str, Dict[str, Any]]:
+    summaries: dict[str, dict[str, Any]]
+) -> dict[str, dict[str, Any]]:
     """Generate insights for each post_id given a summariser JSON mapping."""
 
     log.info("Generating insights", extra={"count": len(summaries)})
-    outputs: Dict[str, Dict[str, Any]] = {}
+    outputs: dict[str, dict[str, Any]] = {}
     for post_id, payload in summaries.items():
         messages = [
             {"role": "system", "content": SYSTEM_PROMPT},
@@ -91,8 +89,8 @@ def generate_insights_from_summaries(
                 "role": "user",
                 "content": (
                     "Given the following summariser JSON, return strict JSON with keys: "
-                    "freelancer_actions[], client_playbook[], measurement[], risk_watchouts[], draft_titles[], "
-                    "plus a confidence 0.0–1.0 and short_rationale.\n\n"
+                    "freelancer_actions[], client_playbook[], measurement[], risk_watchouts[], "
+                    "draft_titles[], plus a confidence 0.0–1.0 and short_rationale.\n\n"
                     + orjson.dumps(payload).decode("utf-8")
                 ),
             },

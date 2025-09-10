@@ -1,0 +1,14 @@
+---
+alwaysApply: true
+---
+# PR Checklist
+
+- [ ] Minimal scope: only files relevant to the task changed
+- [ ] No duplication introduced; removed superseded logic
+- [ ] Simple solution first; no new pattern/tech unless justified
+- [ ] Files stay ≲300 LOC where practical (decomposed/refactored if larger)
+- [ ] Tests added/updated (unit + integration/regression)
+- [ ] Security reviewed (inputs, deps, exec, env separation)
+- [ ] No mocks/stubs leaked to dev/prod; `.env` untouched (or approved)
+- [ ] Impact summary included (modules affected, risks, follow-ups)
+

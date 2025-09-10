@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from reddit_pipeline.llm.summariser import _response_format as summariser_schema
 from reddit_pipeline.llm.insights import _response_format as munger_schema
+from reddit_pipeline.llm.summariser import _response_format as summariser_schema
 
 
 def test_summariser_schema_shape_has_required_keys():

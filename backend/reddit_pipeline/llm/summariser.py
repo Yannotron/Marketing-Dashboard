@@ -5,7 +5,7 @@ from __future__ import annotations
 Strict-JSON output per spec. Uses OpenAI SDK with retries and truncation.
 """
 
-from typing import List, Dict, Any
+from typing import Any
 
 import orjson
 from openai import OpenAI
@@ -13,7 +13,6 @@ from openai import OpenAI
 from ..config import settings
 from ..models import Post
 from ..utils import get_json_logger, retry_with_backoff
-
 
 log = get_json_logger("reddit_pipeline.llm.summariser")
 
@@ -28,7 +27,7 @@ def _truncate_text(text: str, max_chars: int) -> str:
     return text[: max(0, max_chars - 1)] + "…"
 
 
-def _build_user_content(post: Post, top_comments: List[Dict[str, Any]]) -> str:
+def _build_user_content(post: Post, top_comments: list[dict[str, Any]]) -> str:
     title = post.title
     body = post.text or ""
     comments_str = "\n\n".join(
@@ -39,7 +38,7 @@ def _build_user_content(post: Post, top_comments: List[Dict[str, Any]]) -> str:
     )
 
 
-def _response_format() -> Dict[str, Any]:
+def _response_format() -> dict[str, Any]:
     return {
         "type": "json_schema",
         "json_schema": {
@@ -74,7 +73,7 @@ def _response_format() -> Dict[str, Any]:
 
 
 @retry_with_backoff()
-def _call_openai(messages: List[Dict[str, str]]) -> Dict[str, Any]:
+def _call_openai(messages: list[dict[str, str]]) -> dict[str, Any]:
     client = OpenAI(api_key=settings.openai_api_key)
     resp = client.chat.completions.create(
         model=settings.llm_model_summariser,
@@ -91,16 +90,16 @@ def _call_openai(messages: List[Dict[str, str]]) -> Dict[str, Any]:
 
 
 def summarise_posts_with_comments(
-    posts: List[Post],
-    comments_by_post: Dict[str, List[Dict[str, Any]]],
-) -> Dict[str, Dict[str, Any]]:
+    posts: list[Post],
+    comments_by_post: dict[str, list[dict[str, Any]]],
+) -> dict[str, dict[str, Any]]:
     """Summarise each post with its top-K comments using strict JSON.
 
     Returns a mapping of post_id -> summariser JSON dict.
     """
 
     log.info("Summarising posts", extra={"count": len(posts)})
-    results: Dict[str, Dict[str, Any]] = {}
+    results: dict[str, dict[str, Any]] = {}
     max_chars_per_section = 2000  # coarse truncation guard before tokenisation
     top_k = settings.top_k_comments
 

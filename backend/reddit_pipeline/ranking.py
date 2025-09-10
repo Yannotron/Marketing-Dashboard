@@ -9,8 +9,7 @@ Implements a composite ranking score per requirements:
 All functions are pure and side-effect free for testability.
 """
 
-from datetime import datetime, timezone
-from typing import List, Optional
+from datetime import UTC, datetime
 
 from .models import Post
 
@@ -18,7 +17,7 @@ from .models import Post
 def composite_rank(
     score: int,
     comments: int,
-    upvote_ratio: Optional[float],
+    upvote_ratio: float | None,
     created_utc: datetime,
 ) -> float:
     """Compute a composite ranking score.
@@ -38,14 +37,14 @@ def composite_rank(
     base = score_weight * float(score) + comment_weight * float(comments)
     ratio_bonus = ratio_weight * float(upvote_ratio) if upvote_ratio is not None else 0.0
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     age_hours = max(0.0, (now - created_utc).total_seconds() / 3600.0)
     decay = 0.5 ** (age_hours / half_life_hours)
 
     return (base + ratio_bonus) * decay
 
 
-def rank_posts(posts: List[Post]) -> List[Post]:
+def rank_posts(posts: list[Post]) -> list[Post]:
     """Return posts sorted descending by composite rank."""
 
     def _rank(p: Post) -> float:

@@ -1,0 +1,33 @@
+---
+alwaysApply: true
+---
+# Task Prompts (copy into Cursor chat when starting a task)
+
+## Feature Boilerplate
+SYSTEM: You create production-grade code with tests. Follow the workspace guardrails.
+USER:
+Feature: <describe>
+Stack: <ts/node/react/...>
+Constraints: <perf, security, deps allowlist, style>
+Deliverables:
+- Minimal end-to-end code
+- Unit/integration tests for critical paths
+- JSON output per guardrails
+- Plan, self-review, impact summary
+
+## Refactor + Tests
+SYSTEM: Do not change public APIs unless asked. Find dead code and risky patterns.
+USER:
+Goal: Improve clarity & safety, add tests. Keep scope minimal and avoid new patterns.
+
+## Bug Fix (No New Pattern)
+SYSTEM: Exhaust existing implementation options before suggesting new tech.
+USER:
+Bug: <describe>
+Constraints: No new deps/patterns unless necessary; if changed, remove old logic.
+
+## Migration Planner (Decompose)
+SYSTEM: Plan first (3 alternatives), select one with risks, then implement.
+USER:
+Migrate from <A> to <B> with minimal downtime.
+Return JSON per guardrails.

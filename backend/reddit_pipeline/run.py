@@ -6,22 +6,21 @@ Respects rate limits and retries transient failures with backoff. This file is
 safe to be executed by CI (weekly schedule) and locally for development.
 """
 
-from typing import List, Dict, Any
+from typing import Any
 
 from .config import settings
-from .models import Post
-from .utils import get_json_logger
-from .ranking import rank_posts
-from .llm.summariser import summarise_posts_with_comments
-from .llm.insights import generate_insights_from_summaries
 from .llm.embeddings import embed_texts
-from .storage.supabase import upsert_insight, upsert_embedding
-
+from .llm.insights import generate_insights_from_summaries
+from .llm.summariser import summarise_posts_with_comments
+from .models import Post
+from .ranking import rank_posts
+from .storage.supabase import upsert_embedding, upsert_insight
+from .utils import get_json_logger
 
 log = get_json_logger("reddit_pipeline.run")
 
 
-def fetch_sources() -> List[Post]:
+def fetch_sources() -> list[Post]:
     """Fetch items from enabled sources.
 
     This is a placeholder implementation. Replace with concrete client calls.
@@ -31,7 +30,7 @@ def fetch_sources() -> List[Post]:
     return []
 
 
-def process(posts: List[Post]) -> List[Post]:
+def process(posts: list[Post]) -> list[Post]:
     """Run dedupe/ranking/LLM pipelines with top-N selection.
 
     Note: fetching comments is not implemented here; provide top-K per post via
@@ -47,14 +46,14 @@ def process(posts: List[Post]) -> List[Post]:
     selected = ranked[:top_n]
 
     # Placeholder comments map: in a real integration, supply top-K comments
-    comments_by_post: Dict[str, List[Dict[str, Any]]] = {p.id: [] for p in selected}
+    comments_by_post: dict[str, list[dict[str, Any]]] = {p.id: [] for p in selected}
 
     summaries = summarise_posts_with_comments(selected, comments_by_post)
     insights = generate_insights_from_summaries(summaries)
 
     # Embeddings: post.title, summariser.summary, and each insight record
-    texts: List[str] = []
-    embedding_targets: List[tuple[str, str]] = []  # (entity_type, entity_id)
+    texts: list[str] = []
+    embedding_targets: list[tuple[str, str]] = []  # (entity_type, entity_id)
     for p in selected:
         texts.append(p.title)
         embedding_targets.append(("post", p.id))
@@ -97,7 +96,7 @@ def process(posts: List[Post]) -> List[Post]:
     return selected
 
 
-def persist(posts: List[Post]) -> None:
+def persist(posts: list[Post]) -> None:
     """Persist outputs to Supabase using UPSERT semantics. Placeholder for now."""
 
     log.info("Persisting %d posts...", len(posts))
