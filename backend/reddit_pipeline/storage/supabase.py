@@ -8,18 +8,17 @@ from __future__ import annotations
 from collections.abc import Iterable
 from typing import Any
 
-from ..config import settings
-from ..models import Post, UpsertResult
-from ..utils import get_json_logger, retry_with_backoff
-
-log = get_json_logger("reddit_pipeline.storage.supabase")
-
-try:  # import optional dependency
+try:  # import optional dependency (third-party)
     from supabase import Client, create_client  # type: ignore
 except Exception:  # pragma: no cover
     Client = Any  # type: ignore
     create_client = None  # type: ignore
 
+from ..config import settings
+from ..models import Post, UpsertResult
+from ..utils import get_json_logger, retry_with_backoff
+
+log = get_json_logger("reddit_pipeline.storage.supabase")
 
 class SupabaseStore:
     def __init__(self, url: str, key: str) -> None:
