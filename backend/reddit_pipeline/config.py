@@ -7,7 +7,7 @@ single `Settings` object to be used across the codebase.
 
 from __future__ import annotations
 
-from pydantic import AnyUrl, Field
+from pydantic import Field
 from pydantic_settings import BaseSettings
 
 
@@ -55,7 +55,7 @@ class Settings(BaseSettings):
     reddit_min_comments: int = Field(default=5, validation_alias="REDDIT_MIN_COMMENTS")
 
     # Supabase
-    supabase_url: AnyUrl = Field(default="https://example.com", validation_alias="SUPABASE_URL")
+    supabase_url: str = Field(default="https://example.com", validation_alias="SUPABASE_URL")
     supabase_anon_key: str = Field(default="test-anon", validation_alias="SUPABASE_ANON_KEY")
 
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8", "extra": "ignore"}
