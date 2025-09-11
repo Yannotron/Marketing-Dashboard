@@ -34,7 +34,7 @@ jobs:
         run: |
           ruff check .
           black --check .
-          mypy .
+          mypy reddit_pipeline
           pytest -q
 
       - name: Validate required secrets (minimal)

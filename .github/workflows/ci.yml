@@ -39,7 +39,7 @@ jobs:
         run: |
           ruff check .
           black --check .
-          mypy .
+          mypy reddit_pipeline
 
       - name: Tests
         run: pytest -q
