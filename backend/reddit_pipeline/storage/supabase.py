@@ -8,9 +8,9 @@ from __future__ import annotations
 from collections.abc import Iterable
 from typing import Any
 
+from ..config import settings
 from ..models import Post, UpsertResult
 from ..utils import get_json_logger, retry_with_backoff
-from ..config import settings
 
 log = get_json_logger("reddit_pipeline.storage.supabase")
 
