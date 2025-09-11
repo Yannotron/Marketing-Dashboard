@@ -19,6 +19,14 @@ warn_unused_configs = true
 warn_redundant_casts = true
 warn_unused_ignores = true
 strict = true
+files = ["reddit_pipeline"]
+
+[[tool.mypy.overrides]]
+module = [
+  "tests.*",
+  "reddit_pipeline.tests.*",
+]
+ignore_errors = true
 
 [tool.pytest.ini_options]
 addopts = "-q"

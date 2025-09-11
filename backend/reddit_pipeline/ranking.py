@@ -41,7 +41,7 @@ def composite_rank(
     age_hours = max(0.0, (now - created_utc).total_seconds() / 3600.0)
     decay = 0.5 ** (age_hours / half_life_hours)
 
-    return (base + ratio_bonus) * decay
+    return float((base + ratio_bonus) * decay)
 
 
 def rank_posts(posts: list[Post]) -> list[Post]:

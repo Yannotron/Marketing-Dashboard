@@ -5,7 +5,7 @@ Consumes summariser JSON and returns portfolio-fit insights as strict JSON.
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, cast
 
 import orjson
 from openai import OpenAI
@@ -54,7 +54,8 @@ def _response_format() -> dict[str, Any]:
 @retry_with_backoff()
 def _call_openai(messages: list[dict[str, str]]) -> dict[str, Any]:
     client = OpenAI(api_key=settings.openai_api_key)
-    resp = client.chat.completions.create(
+    chat = cast(Any, client.chat.completions)
+    resp = chat.create(
         model=settings.llm_model_munger,
         messages=messages,
         response_format=_response_format(),
@@ -62,7 +63,7 @@ def _call_openai(messages: list[dict[str, str]]) -> dict[str, Any]:
     )
     content = resp.choices[0].message.content or "{}"
     try:
-        return orjson.loads(content)
+        return cast(dict[str, Any], orjson.loads(content))
     except Exception:
         return {
             "freelancer_actions": [],

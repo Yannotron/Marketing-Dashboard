@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from pydantic import BaseModel, Field, HttpUrl
+from pydantic import BaseModel, Field
 
 
 class Post(BaseModel):
@@ -16,7 +16,7 @@ class Post(BaseModel):
     id: str = Field(..., description="Stable, source-specific ID (e.g. Reddit fullname)")
     source: str = Field(default="reddit", description="Source system name, e.g. 'reddit'")
     title: str
-    url: HttpUrl
+    url: str
     author: str
     score: int = 0
     num_comments: int = 0

@@ -77,7 +77,7 @@ class RedditClient:
             return []
 
     @retry_with_backoff()
-    def fetch_comments(self, post_id: str, limit: int) -> list[dict]:
+    def fetch_comments(self, post_id: str, limit: int) -> list[dict[str, object]]:
         """Fetch comments for a given post ID (minimal placeholder).
 
         Returns a list of dicts with stable IDs and authors. Avoid PII beyond
@@ -93,7 +93,7 @@ class RedditClient:
             )
             submission = reddit.submission(id=post_id)
             raw_comments = submission.comments.list()
-            results: list[dict] = []
+            results: list[dict[str, object]] = []
             for c in raw_comments[:limit]:
                 results.append(
                     {
