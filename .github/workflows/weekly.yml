@@ -35,7 +35,7 @@ jobs:
           ruff check .
           black --check .
           mypy reddit_pipeline
-          pytest -q
+          PYTHONPATH=. pytest -q
 
       - name: Validate required secrets (minimal)
         env:
