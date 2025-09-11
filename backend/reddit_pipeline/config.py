@@ -20,7 +20,9 @@ class Settings(BaseSettings):
 
     # Reddit API
     reddit_client_id: str = Field(default="test-id", validation_alias="REDDIT_CLIENT_ID")
-    reddit_client_secret: str = Field(default="test-secret", validation_alias="REDDIT_CLIENT_SECRET")
+    reddit_client_secret: str = Field(
+        default="test-secret", validation_alias="REDDIT_CLIENT_SECRET"
+    )
     reddit_user_agent: str = Field(
         default="reddit-dashboard/0.1.0", validation_alias="REDDIT_USER_AGENT"
     )
