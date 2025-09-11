@@ -31,5 +31,3 @@ def test_munger_schema_shape_has_required_keys():
         "confidence",
         "short_rationale",
     }.issubset(required)
-
-

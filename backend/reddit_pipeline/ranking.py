@@ -56,5 +56,3 @@ def rank_posts(posts: list[Post]) -> list[Post]:
         )
 
     return sorted(posts, key=_rank, reverse=True)
-
-

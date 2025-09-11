@@ -23,7 +23,10 @@ class ProductHuntClient:
                 data = resp.json()
                 posts: list[Post] = []
                 for item in data.get("posts", [])[:limit]:
-                    created = datetime.fromisoformat(str(item.get("created_at", "1970-01-01T00:00:00Z")).replace("Z", "+00:00"))
+                    created_raw = str(item.get("created_at", "1970-01-01T00:00:00Z")).replace(
+                        "Z", "+00:00"
+                    )
+                    created = datetime.fromisoformat(created_raw)
                     posts.append(
                         Post(
                             id=str(item.get("id", "")),
@@ -42,5 +45,3 @@ class ProductHuntClient:
         except Exception as exc:  # pragma: no cover
             log.error("PH fetch failed", extra={"error": str(exc)})
             return []
-
-

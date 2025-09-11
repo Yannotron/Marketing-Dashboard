@@ -13,7 +13,7 @@ class TestCompositeRank:
         """Test basic ranking with score and comments."""
         now = datetime.now(UTC)
         score = composite_rank(score=100, comments=50, upvote_ratio=None, created_utc=now)
-        
+
         # Base score: 1.0 * 100 + 0.5 * 50 = 125
         # No decay for fresh post
         assert abs(score - 125.0) < 1e-6
@@ -22,7 +22,7 @@ class TestCompositeRank:
         """Test ranking with upvote ratio bonus."""
         now = datetime.now(UTC)
         score = composite_rank(score=100, comments=50, upvote_ratio=0.8, created_utc=now)
-        
+
         # Base: 125, ratio bonus: 2.0 * 0.8 = 1.6
         assert abs(score - 126.6) < 1e-6
 
@@ -31,10 +31,10 @@ class TestCompositeRank:
         now = datetime.now(UTC)
         fresh = now
         old = now - timedelta(hours=48)  # 48 hours = half-life
-        
+
         fresh_score = composite_rank(100, 50, None, fresh)
         old_score = composite_rank(100, 50, None, old)
-        
+
         # Old post should have ~50% of fresh score due to half-life
         assert old_score < fresh_score
         assert abs(old_score / fresh_score - 0.5) < 0.1
@@ -43,7 +43,7 @@ class TestCompositeRank:
         """Test very old posts get minimal scores."""
         very_old = datetime.now(UTC) - timedelta(days=30)
         score = composite_rank(1000, 100, 0.9, very_old)
-        
+
         # Should be very small due to exponential decay
         assert score < 1.0
 
@@ -57,7 +57,7 @@ class TestCompositeRank:
         """Test handling of negative values."""
         now = datetime.now(UTC)
         score = composite_rank(score=-10, comments=-5, upvote_ratio=-0.1, created_utc=now)
-        
+
         # Should handle negative values gracefully
         assert score < 0
 
@@ -81,7 +81,7 @@ class TestRankPosts:
                 text="",
             ),
             Post(
-                id="2", 
+                id="2",
                 title="High score post",
                 score=100,
                 num_comments=50,
@@ -92,9 +92,9 @@ class TestRankPosts:
                 text="",
             ),
         ]
-        
+
         ranked = rank_posts(posts)
-        
+
         # Higher scoring post should come first
         assert ranked[0].id == "2"
         assert ranked[1].id == "1"
@@ -116,7 +116,7 @@ class TestRankPosts:
             ),
             Post(
                 id="2",
-                title="Many comments", 
+                title="Many comments",
                 score=100,
                 num_comments=50,
                 created_utc=now,
@@ -126,9 +126,9 @@ class TestRankPosts:
                 text="",
             ),
         ]
-        
+
         ranked = rank_posts(posts)
-        
+
         # Post with more comments should rank higher
         assert ranked[0].id == "2"
         assert ranked[1].id == "1"
@@ -138,7 +138,7 @@ class TestRankPosts:
         now = datetime.now(UTC)
         fresh = now
         old = now - timedelta(hours=24)
-        
+
         posts = [
             Post(
                 id="1",
@@ -163,9 +163,9 @@ class TestRankPosts:
                 text="",
             ),
         ]
-        
+
         ranked = rank_posts(posts)
-        
+
         # Fresh post should rank higher
         assert ranked[0].id == "2"
         assert ranked[1].id == "1"
@@ -189,7 +189,7 @@ class TestRankPosts:
             url="https://example.com/1",
             text="",
         )
-        
+
         ranked = rank_posts([post])
         assert len(ranked) == 1
         assert ranked[0].id == "1"

@@ -1,47 +1,102 @@
-﻿2025-09-10T19:39:27.2073212Z ##[group]Run ruff check .
-2025-09-10T19:39:27.2073512Z [36;1mruff check .[0m
-2025-09-10T19:39:27.2073773Z [36;1mblack --check .[0m
-2025-09-10T19:39:27.2073995Z [36;1mmypy .[0m
-2025-09-10T19:39:27.2074193Z [36;1mpytest -q[0m
-2025-09-10T19:39:27.2106235Z shell: /usr/bin/bash -e {0}
-2025-09-10T19:39:27.2106480Z env:
-2025-09-10T19:39:27.2106739Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.13/x64
-2025-09-10T19:39:27.2107166Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib/pkgconfig
-2025-09-10T19:39:27.2107588Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
-2025-09-10T19:39:27.2107948Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
-2025-09-10T19:39:27.2108299Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
-2025-09-10T19:39:27.2108651Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib
-2025-09-10T19:39:27.2108952Z ##[endgroup]
-2025-09-10T19:39:27.2196307Z warning: The top-level linter settings are deprecated in favour of their counterparts in the `lint` section. Please update the following options in `pyproject.toml`:
-2025-09-10T19:39:27.2197151Z   - 'ignore' -> 'lint.ignore'
-2025-09-10T19:39:27.2197444Z   - 'select' -> 'lint.select'
-2025-09-10T19:39:27.2270443Z All checks passed!
-2025-09-10T19:39:27.9346369Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/reddit_pipeline/__init__.py
-2025-09-10T19:39:27.9374032Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/reddit_pipeline/clients/hackernews.py
-2025-09-10T19:39:27.9376478Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/reddit_pipeline/clients/producthunt.py
-2025-09-10T19:39:27.9433895Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/reddit_pipeline/clients/slack.py
-2025-09-10T19:39:27.9447973Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/reddit_pipeline/dedupe.py
-2025-09-10T19:39:27.9530029Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/reddit_pipeline/clients/reddit.py
-2025-09-10T19:39:27.9728769Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/reddit_pipeline/config.py
-2025-09-10T19:39:27.9842126Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/reddit_pipeline/llm/embeddings.py
-2025-09-10T19:39:28.0006309Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/reddit_pipeline/models.py
-2025-09-10T19:39:28.0102051Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/reddit_pipeline/ranking.py
-2025-09-10T19:39:28.0238467Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/reddit_pipeline/llm/insights.py
-2025-09-10T19:39:28.0607849Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/reddit_pipeline/storage/supabase.py
-2025-09-10T19:39:28.0720519Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/reddit_pipeline/llm/summariser.py
-2025-09-10T19:39:28.0776384Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/reddit_pipeline/security.py
-2025-09-10T19:39:28.0836598Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/reddit_pipeline/tests/test_llm_prompts.py
-2025-09-10T19:39:28.0838507Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/reddit_pipeline/run.py
-2025-09-10T19:39:28.1079788Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/tests/test_dedupe_rank.py
-2025-09-10T19:39:28.1238387Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/reddit_pipeline/utils.py
-2025-09-10T19:39:28.2356433Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/tests/test_dedupe.py
-2025-09-10T19:39:28.2768316Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/tests/test_llm_contracts.py
-2025-09-10T19:39:28.3499228Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/tests/test_ranking.py
-2025-09-10T19:39:28.3683721Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/tests/test_property_tests.py
-2025-09-10T19:39:28.3843589Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/tests/test_integration.py
-2025-09-10T19:39:28.4307669Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/tests/test_security.py
-2025-09-10T19:39:28.4577944Z would reformat /home/runner/work/Marketing-Dashboard/Marketing-Dashboard/backend/tests/test_utils.py
-2025-09-10T19:39:28.4628486Z 
-2025-09-10T19:39:28.4629537Z Oh no! 💥 💔 💥
-2025-09-10T19:39:28.4630165Z 25 files would be reformatted.
-2025-09-10T19:39:28.4873281Z ##[error]Process completed with exit code 1.
+﻿2025-09-11T08:12:05.1139695Z ##[group]Run ruff check .
+2025-09-11T08:12:05.1139992Z [36;1mruff check .[0m
+2025-09-11T08:12:05.1140214Z [36;1mblack --check .[0m
+2025-09-11T08:12:05.1140690Z [36;1mmypy .[0m
+2025-09-11T08:12:05.1140947Z [36;1mpytest -q[0m
+2025-09-11T08:12:05.1172979Z shell: /usr/bin/bash -e {0}
+2025-09-11T08:12:05.1173223Z env:
+2025-09-11T08:12:05.1173487Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-09-11T08:12:05.1173908Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib/pkgconfig
+2025-09-11T08:12:05.1174319Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-09-11T08:12:05.1174681Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-09-11T08:12:05.1175035Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.13/x64
+2025-09-11T08:12:05.1175387Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.13/x64/lib
+2025-09-11T08:12:05.1175687Z ##[endgroup]
+2025-09-11T08:12:05.1260614Z warning: The top-level linter settings are deprecated in favour of their counterparts in the `lint` section. Please update the following options in `pyproject.toml`:
+2025-09-11T08:12:05.1261937Z   - 'ignore' -> 'lint.ignore'
+2025-09-11T08:12:05.1262402Z   - 'select' -> 'lint.select'
+2025-09-11T08:12:05.1343874Z E501 Line too long (128 > 100)
+2025-09-11T08:12:05.1344506Z   --> reddit_pipeline/clients/producthunt.py:26:101
+2025-09-11T08:12:05.1345022Z    |
+2025-09-11T08:12:05.1345452Z 24 |                 posts: list[Post] = []
+2025-09-11T08:12:05.1346016Z 25 |                 for item in data.get("posts", [])[:limit]:
+2025-09-11T08:12:05.1347271Z 26 |                     created = datetime.fromisoformat(str(item.get("created_at", "1970-01-01T00:00:00Z")).replace("Z", "+00:00"))
+2025-09-11T08:12:05.1348169Z    |                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-09-11T08:12:05.1348690Z 27 |                     posts.append(
+2025-09-11T08:12:05.1349113Z 28 |                         Post(
+2025-09-11T08:12:05.1349504Z    |
+2025-09-11T08:12:05.1349661Z 
+2025-09-11T08:12:05.1349812Z E501 Line too long (102 > 100)
+2025-09-11T08:12:05.1350271Z   --> reddit_pipeline/clients/reddit.py:52:101
+2025-09-11T08:12:05.1350962Z    |
+2025-09-11T08:12:05.1351322Z 50 |                 subreddit = reddit.subreddit(sub)
+2025-09-11T08:12:05.1351854Z 51 |                 for submission in subreddit.hot(limit=limit_per_sub):
+2025-09-11T08:12:05.1352322Z 52 |                     created_dt = datetime.fromtimestamp(getattr(submission, "created_utc", 0), tz=UTC)
+2025-09-11T08:12:05.1352772Z    |                                                                                                     ^^
+2025-09-11T08:12:05.1353148Z 53 |                     posts.append(
+2025-09-11T08:12:05.1353404Z 54 |                         Post(
+2025-09-11T08:12:05.1353625Z    |
+2025-09-11T08:12:05.1353726Z 
+2025-09-11T08:12:05.1353811Z E501 Line too long (112 > 100)
+2025-09-11T08:12:05.1354077Z   --> reddit_pipeline/clients/reddit.py:63:101
+2025-09-11T08:12:05.1354351Z    |
+2025-09-11T08:12:05.1354601Z 61 |                             num_comments=int(getattr(submission, "num_comments", 0)),
+2025-09-11T08:12:05.1354949Z 62 |                             created_utc=created_dt,
+2025-09-11T08:12:05.1355377Z 63 |                             subreddit=str(getattr(getattr(submission, "subreddit", None), "display_name", sub)),
+2025-09-11T08:12:05.1355811Z    |                                                                                                     ^^^^^^^^^^^^
+2025-09-11T08:12:05.1356402Z 64 |                             text=str(getattr(submission, "selftext", "")) or None,
+2025-09-11T08:12:05.1356938Z 65 |                         )
+2025-09-11T08:12:05.1357293Z    |
+2025-09-11T08:12:05.1357450Z 
+2025-09-11T08:12:05.1357660Z I001 [*] Import block is un-sorted or un-formatted
+2025-09-11T08:12:05.1358165Z   --> reddit_pipeline/run.py:7:1
+2025-09-11T08:12:05.1358562Z    |
+2025-09-11T08:12:05.1358829Z  5 |   """
+2025-09-11T08:12:05.1359146Z  6 |
+2025-09-11T08:12:05.1359963Z  7 | / from __future__ import annotations
+2025-09-11T08:12:05.1360569Z  8 | |
+2025-09-11T08:12:05.1360845Z  9 | | from typing import Any
+2025-09-11T08:12:05.1361155Z 10 | | from datetime import UTC, datetime, timedelta
+2025-09-11T08:12:05.1361438Z 11 | |
+2025-09-11T08:12:05.1361627Z 12 | | from .config import settings
+2025-09-11T08:12:05.1361924Z 13 | | from .llm.embeddings import embed_texts
+2025-09-11T08:12:05.1362272Z 14 | | from .llm.insights import generate_insights_from_summaries
+2025-09-11T08:12:05.1362666Z 15 | | from .llm.summariser import summarise_posts_with_comments
+2025-09-11T08:12:05.1362995Z 16 | | from .models import Post
+2025-09-11T08:12:05.1363252Z 17 | | from .ranking import rank_posts
+2025-09-11T08:12:05.1363592Z 18 | | from .storage.supabase import upsert_embedding, upsert_insight
+2025-09-11T08:12:05.1363940Z 19 | | from .utils import get_json_logger
+2025-09-11T08:12:05.1364226Z 20 | | from .clients.reddit import RedditClient
+2025-09-11T08:12:05.1364505Z    | |________________________________________^
+2025-09-11T08:12:05.1364749Z 21 |
+2025-09-11T08:12:05.1364970Z 22 |   log = get_json_logger("reddit_pipeline.run")
+2025-09-11T08:12:05.1365241Z    |
+2025-09-11T08:12:05.1365417Z help: Organize imports
+2025-09-11T08:12:05.1365555Z 
+2025-09-11T08:12:05.1365647Z F401 [*] `json` imported but unused
+2025-09-11T08:12:05.1365901Z  --> tests/test_utils.py:3:8
+2025-09-11T08:12:05.1366119Z   |
+2025-09-11T08:12:05.1366311Z 1 | """Unit tests for utility functions."""
+2025-09-11T08:12:05.1366557Z 2 |
+2025-09-11T08:12:05.1366875Z 3 | import json
+2025-09-11T08:12:05.1367057Z   |        ^^^^
+2025-09-11T08:12:05.1367234Z 4 | import logging
+2025-09-11T08:12:05.1367425Z 5 | import time
+2025-09-11T08:12:05.1367595Z   |
+2025-09-11T08:12:05.1367780Z help: Remove unused import: `json`
+2025-09-11T08:12:05.1367948Z 
+2025-09-11T08:12:05.1368071Z F401 [*] `unittest.mock.patch` imported but unused
+2025-09-11T08:12:05.1368366Z  --> tests/test_utils.py:6:27
+2025-09-11T08:12:05.1368589Z   |
+2025-09-11T08:12:05.1368756Z 4 | import logging
+2025-09-11T08:12:05.1368941Z 5 | import time
+2025-09-11T08:12:05.1369162Z 6 | from unittest.mock import patch
+2025-09-11T08:12:05.1369407Z   |                           ^^^^^
+2025-09-11T08:12:05.1369623Z 7 |
+2025-09-11T08:12:05.1369785Z 8 | import pytest
+2025-09-11T08:12:05.1369968Z   |
+2025-09-11T08:12:05.1370199Z help: Remove unused import: `unittest.mock.patch`
+2025-09-11T08:12:05.1370569Z 
+2025-09-11T08:12:05.1370665Z Found 6 errors.
+2025-09-11T08:12:05.1370906Z [*] 3 fixable with the `--fix` option.
+2025-09-11T08:12:05.1381600Z ##[error]Process completed with exit code 1.

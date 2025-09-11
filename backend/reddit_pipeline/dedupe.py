@@ -13,5 +13,3 @@ def dedupe_posts(posts: list[Post]) -> list[Post]:
         if post.id not in seen:
             seen[post.id] = post
     return list(seen.values())
-
-

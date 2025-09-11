@@ -48,13 +48,7 @@ class Settings(BaseSettings):
     supabase_url: AnyUrl = Field(..., env="SUPABASE_URL")
     supabase_anon_key: str = Field(..., env="SUPABASE_ANON_KEY")
 
-    model_config = {
-        "env_file": ".env",
-        "env_file_encoding": "utf-8",
-        "extra": "ignore"
-    }
+    model_config = {"env_file": ".env", "env_file_encoding": "utf-8", "extra": "ignore"}
 
 
 settings = Settings()
-
-

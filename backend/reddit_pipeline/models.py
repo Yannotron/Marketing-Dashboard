@@ -40,5 +40,3 @@ class UpsertResult(BaseModel):
 
     inserted: int
     updated: int
-
-

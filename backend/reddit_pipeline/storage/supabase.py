@@ -27,8 +27,8 @@ class SupabaseStore:
         return UpsertResult(inserted=0, updated=0)
 
 
-
 # --- Module-level minimal function signatures (required by spec) ---
+
 
 def upsert_post(post_dict: dict[str, Any]) -> None:
     """UPSERT a single post into Supabase.
@@ -59,4 +59,3 @@ def upsert_embedding(entity_type: str, entity_id: str, vector: list[float]) -> N
         "upsert_embedding called",
         extra={"entity_type": entity_type, "entity_id": entity_id, "dim": len(vector)},
     )
-

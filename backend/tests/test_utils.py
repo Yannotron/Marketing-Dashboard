@@ -1,9 +1,8 @@
 """Unit tests for utility functions."""
 
-import json
 import logging
 import time
-from unittest.mock import patch
+from unittest.mock import patch  # noqa: F401  (imported for potential future use in tests)
 
 import pytest
 
@@ -35,12 +34,12 @@ class TestJsonLogger:
         """Test that JSON logger formats messages correctly."""
         # Create a fresh logger to avoid handler conflicts
         logger = get_json_logger("test_logger_format")
-        
+
         # Test that the logger has the correct formatter
         assert len(logger.handlers) == 1
         handler = logger.handlers[0]
         assert isinstance(handler.formatter, logging.Formatter)
-        
+
         # Test that the logger can be called without errors
         logger.info("Test message")
         logger.warning("Test warning")
@@ -50,13 +49,13 @@ class TestJsonLogger:
         """Test that JSON logger handles exceptions correctly."""
         # Create a fresh logger to avoid handler conflicts
         logger = get_json_logger("test_logger_exception")
-        
+
         # Test that the logger can handle exceptions without errors
         try:
             raise ValueError("Test exception")
         except ValueError:
             logger.exception("Test message with exception")
-        
+
         # Test that the logger can be called without errors
         logger.info("Test message")
         logger.warning("Test warning")
@@ -68,17 +67,18 @@ class TestRetryWithBackoff:
 
     def test_retry_success_on_first_attempt(self):
         """Test that function succeeds on first attempt without retry."""
+
         @retry_with_backoff()
         def success_func():
             return "success"
-        
+
         result = success_func()
         assert result == "success"
 
     def test_retry_success_after_failures(self):
         """Test that function succeeds after some failures."""
         call_count = 0
-        
+
         @retry_with_backoff(max_attempts=3, base_delay_seconds=0.01)
         def flaky_func():
             nonlocal call_count
@@ -86,7 +86,7 @@ class TestRetryWithBackoff:
             if call_count < 3:
                 raise ValueError("Temporary failure")
             return "success"
-        
+
         result = flaky_func()
         assert result == "success"
         assert call_count == 3
@@ -94,37 +94,37 @@ class TestRetryWithBackoff:
     def test_retry_exhausts_max_attempts(self):
         """Test that retry raises exception after max attempts."""
         call_count = 0
-        
+
         @retry_with_backoff(max_attempts=2, base_delay_seconds=0.01)
         def always_fail_func():
             nonlocal call_count
             call_count += 1
             raise ValueError("Always fails")
-        
+
         with pytest.raises(ValueError, match="Always fails"):
             always_fail_func()
-        
+
         assert call_count == 2
 
     def test_retry_with_specific_exceptions(self):
         """Test that retry only retries on specified exceptions."""
         call_count = 0
-        
+
         @retry_with_backoff(exceptions=(ValueError,), max_attempts=3, base_delay_seconds=0.01)
         def func_with_wrong_exception():
             nonlocal call_count
             call_count += 1
             raise RuntimeError("Wrong exception type")
-        
+
         with pytest.raises(RuntimeError, match="Wrong exception type"):
             func_with_wrong_exception()
-        
+
         assert call_count == 1  # Should not retry
 
     def test_retry_with_correct_exceptions(self):
         """Test that retry works with correct exception types."""
         call_count = 0
-        
+
         @retry_with_backoff(
             exceptions=(ValueError, RuntimeError), max_attempts=3, base_delay_seconds=0.01
         )
@@ -134,7 +134,7 @@ class TestRetryWithBackoff:
             if call_count < 2:
                 raise ValueError("Temporary failure")
             return "success"
-        
+
         result = func_with_correct_exception()
         assert result == "success"
         assert call_count == 2
@@ -143,7 +143,7 @@ class TestRetryWithBackoff:
         """Test that retry delay is calculated correctly."""
         call_count = 0
         delays = []
-        
+
         @retry_with_backoff(max_attempts=3, base_delay_seconds=0.1, max_delay_seconds=0.5)
         def func_with_delay():
             nonlocal call_count
@@ -152,14 +152,14 @@ class TestRetryWithBackoff:
                 delays.append(time.time())
                 raise ValueError("Temporary failure")
             return "success"
-        
+
         start_time = time.time()
         result = func_with_delay()
-        
+
         assert result == "success"
         assert call_count == 3
         assert len(delays) == 2
-        
+
         # Check that delays are increasing (exponential backoff)
         if len(delays) >= 2:
             delay1 = delays[0] - start_time
@@ -168,18 +168,19 @@ class TestRetryWithBackoff:
 
     def test_retry_preserves_function_metadata(self):
         """Test that retry decorator preserves function metadata."""
+
         @retry_with_backoff()
         def test_func(arg1, arg2=None):
             """Test function docstring."""
             return f"{arg1}_{arg2}"
-        
+
         assert test_func.__name__ == "test_func"
         assert test_func.__doc__ == "Test function docstring."
 
     def test_retry_with_kwargs(self):
         """Test that retry works with keyword arguments."""
         call_count = 0
-        
+
         @retry_with_backoff(max_attempts=3, base_delay_seconds=0.01)
         def func_with_kwargs(a, b, c=None):
             nonlocal call_count
@@ -187,7 +188,7 @@ class TestRetryWithBackoff:
             if call_count < 2:
                 raise ValueError("Temporary failure")
             return f"{a}_{b}_{c}"
-        
+
         result = func_with_kwargs(1, 2, c=3)
         assert result == "1_2_3"
         assert call_count == 2
@@ -195,7 +196,7 @@ class TestRetryWithBackoff:
     def test_retry_with_args_and_kwargs(self):
         """Test that retry works with both args and kwargs."""
         call_count = 0
-        
+
         @retry_with_backoff(max_attempts=3, base_delay_seconds=0.01)
         def func_with_args_kwargs(a, b, c=None, d=None):
             nonlocal call_count
@@ -203,7 +204,7 @@ class TestRetryWithBackoff:
             if call_count < 2:
                 raise ValueError("Temporary failure")
             return f"{a}_{b}_{c}_{d}"
-        
+
         result = func_with_args_kwargs(1, 2, c=3, d=4)
         assert result == "1_2_3_4"
         assert call_count == 2

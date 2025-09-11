@@ -36,9 +36,9 @@ class TestDedupePosts:
                 text="",
             ),
         ]
-        
+
         deduped = dedupe_posts(posts)
-        
+
         assert len(deduped) == 2
         assert deduped[0].id == "1"
         assert deduped[1].id == "2"
@@ -81,9 +81,9 @@ class TestDedupePosts:
                 text="",
             ),
         ]
-        
+
         deduped = dedupe_posts(posts)
-        
+
         assert len(deduped) == 2
         # Should keep first occurrence
         assert deduped[0].id == "1"
@@ -129,9 +129,9 @@ class TestDedupePosts:
                 text="",
             ),
         ]
-        
+
         deduped = dedupe_posts(posts)
-        
+
         assert len(deduped) == 1
         assert deduped[0].id == "1"
         assert deduped[0].title == "First"  # First occurrence kept
@@ -156,7 +156,7 @@ class TestDedupePosts:
             url="https://example.com/1",
             text="",
         )
-        
+
         deduped = dedupe_posts([post])
         assert len(deduped) == 1
         assert deduped[0].id == "1"
@@ -166,34 +166,64 @@ class TestDedupePosts:
         now = datetime.now(UTC)
         posts = [
             Post(
-                id="3", title="Third", score=300, num_comments=30,
-                created_utc=now, subreddit="test", author="user3",
-                url="https://example.com/3", text=""
+                id="3",
+                title="Third",
+                score=300,
+                num_comments=30,
+                created_utc=now,
+                subreddit="test",
+                author="user3",
+                url="https://example.com/3",
+                text="",
             ),
             Post(
-                id="1", title="First", score=100, num_comments=10,
-                created_utc=now, subreddit="test", author="user1",
-                url="https://example.com/1", text=""
+                id="1",
+                title="First",
+                score=100,
+                num_comments=10,
+                created_utc=now,
+                subreddit="test",
+                author="user1",
+                url="https://example.com/1",
+                text="",
             ),
             Post(
-                id="2", title="Second", score=200, num_comments=20,
-                created_utc=now, subreddit="test", author="user2",
-                url="https://example.com/2", text=""
+                id="2",
+                title="Second",
+                score=200,
+                num_comments=20,
+                created_utc=now,
+                subreddit="test",
+                author="user2",
+                url="https://example.com/2",
+                text="",
             ),
             Post(
-                id="1", title="First Duplicate", score=150, num_comments=15,
-                created_utc=now, subreddit="test", author="user4",
-                url="https://example.com/4", text=""
+                id="1",
+                title="First Duplicate",
+                score=150,
+                num_comments=15,
+                created_utc=now,
+                subreddit="test",
+                author="user4",
+                url="https://example.com/4",
+                text="",
             ),
             Post(
-                id="2", title="Second Duplicate", score=250, num_comments=25,
-                created_utc=now, subreddit="test", author="user5",
-                url="https://example.com/5", text=""
+                id="2",
+                title="Second Duplicate",
+                score=250,
+                num_comments=25,
+                created_utc=now,
+                subreddit="test",
+                author="user5",
+                url="https://example.com/5",
+                text="",
             ),
         ]
-        
+
         deduped = dedupe_posts(posts)
-        
+
         assert len(deduped) == 3
         assert deduped[0].id == "3"
         assert deduped[1].id == "1"

@@ -34,7 +34,7 @@ def _response_format() -> dict[str, Any]:
                     "risk_watchouts": {"type": "array", "items": {"type": "string"}},
                     "draft_titles": {"type": "array", "items": {"type": "string"}},
                     "confidence": {"type": "number", "minimum": 0.0, "maximum": 1.0},
-                    "short_rationale": {"type": "string"}
+                    "short_rationale": {"type": "string"},
                 },
                 "required": [
                     "freelancer_actions",
@@ -43,7 +43,7 @@ def _response_format() -> dict[str, Any]:
                     "risk_watchouts",
                     "draft_titles",
                     "confidence",
-                    "short_rationale"
+                    "short_rationale",
                 ],
             },
             "strict": True,
@@ -98,5 +98,3 @@ def generate_insights_from_summaries(
         result = _call_openai(messages)
         outputs[post_id] = result
     return outputs
-
-

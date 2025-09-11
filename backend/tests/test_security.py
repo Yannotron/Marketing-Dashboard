@@ -17,7 +17,7 @@ class TestPIIStripping:
         """Test that email addresses are stripped."""
         text = "Contact me at john.doe@example.com or admin@company.co.uk"
         result = strip_pii_from_text(text)
-        
+
         assert "[EMAIL_REDACTED]" in result
         assert "john.doe@example.com" not in result
         assert "admin@company.co.uk" not in result
@@ -26,7 +26,7 @@ class TestPIIStripping:
         """Test that phone numbers are stripped."""
         text = "Call me at 123-456-7890 or (555) 123-4567 or +1-800-555-0199"
         result = strip_pii_from_text(text)
-        
+
         assert "[PHONE_REDACTED]" in result
         assert "123-456-7890" not in result
         assert "(555) 123-4567" not in result
@@ -36,7 +36,7 @@ class TestPIIStripping:
         """Test stripping mixed PII types."""
         text = "Email: user@example.com, Phone: 555-123-4567, Website: example.com"
         result = strip_pii_from_text(text)
-        
+
         assert "[EMAIL_REDACTED]" in result
         assert "[PHONE_REDACTED]" in result
         assert "user@example.com" not in result
@@ -47,7 +47,7 @@ class TestPIIStripping:
         """Test text with no PII remains unchanged."""
         text = "This is a normal comment with no personal information."
         result = strip_pii_from_text(text)
-        
+
         assert result == text
 
     def test_strip_empty_text(self):
@@ -59,7 +59,7 @@ class TestPIIStripping:
         """Test stripping PII from unicode text."""
         text = "Contact: 用户@example.com or 电话: 123-456-7890"
         result = strip_pii_from_text(text)
-        
+
         assert "[EMAIL_REDACTED]" in result
         assert "[PHONE_REDACTED]" in result
         assert "用户@example.com" not in result
@@ -70,7 +70,7 @@ class TestPIIStripping:
         # Test with special characters
         text = "Email: test+tag@example.com, Phone: +44 20 7946 0958"
         result = strip_pii_from_text(text)
-        
+
         assert "[EMAIL_REDACTED]" in result
         assert "[PHONE_REDACTED]" in result
         assert "test+tag@example.com" not in result
@@ -80,7 +80,7 @@ class TestPIIStripping:
         """Test stripping multiple occurrences of PII."""
         text = "Email: user@example.com, another email: admin@test.com, phone: 555-123-4567"
         result = strip_pii_from_text(text)
-        
+
         # Should have multiple redacted placeholders
         assert result.count("[EMAIL_REDACTED]") == 2
         assert result.count("[PHONE_REDACTED]") == 1
@@ -98,11 +98,11 @@ class TestCommentPIIStripping:
             "id": "comment1",
             "body": "Contact me at user@example.com or call 555-123-4567",
             "score": 10,
-            "author": "commenter1"
+            "author": "commenter1",
         }
-        
+
         result = strip_pii_from_comment(comment)
-        
+
         assert result["id"] == "comment1"
         assert result["score"] == 10
         assert result["author"] == "commenter1"
@@ -117,11 +117,11 @@ class TestCommentPIIStripping:
             "id": "comment1",
             "body": "This is a normal comment",
             "score": 10,
-            "author": "commenter1"
+            "author": "commenter1",
         }
-        
+
         result = strip_pii_from_comment(comment)
-        
+
         assert result == comment
 
     def test_strip_comment_multiple_text_fields(self):
@@ -131,11 +131,11 @@ class TestCommentPIIStripping:
             "body": "Email: user@example.com",
             "text": "Phone: 555-123-4567",
             "content": "Another email: admin@test.com",
-            "score": 10
+            "score": 10,
         }
-        
+
         result = strip_pii_from_comment(comment)
-        
+
         assert "[EMAIL_REDACTED]" in result["body"]
         assert "[PHONE_REDACTED]" in result["text"]
         assert "[EMAIL_REDACTED]" in result["content"]
@@ -156,20 +156,12 @@ class TestCommentsPIIStripping:
     def test_strip_comments_pii(self):
         """Test stripping PII from multiple comments."""
         comments = [
-            {
-                "id": "comment1",
-                "body": "Email: user1@example.com",
-                "score": 10
-            },
-            {
-                "id": "comment2",
-                "body": "Phone: 555-123-4567",
-                "score": 5
-            }
+            {"id": "comment1", "body": "Email: user1@example.com", "score": 10},
+            {"id": "comment2", "body": "Phone: 555-123-4567", "score": 5},
         ]
-        
+
         result = strip_pii_from_comments(comments)
-        
+
         assert len(result) == 2
         assert "[EMAIL_REDACTED]" in result[0]["body"]
         assert "[PHONE_REDACTED]" in result[1]["body"]
@@ -197,11 +189,11 @@ class TestPostPIIStripping:
             "title": "Contact me at user@example.com",
             "text": "Phone: 555-123-4567",
             "selftext": "Another email: admin@test.com",
-            "score": 100
+            "score": 100,
         }
-        
+
         result = strip_pii_from_post(post)
-        
+
         assert result["id"] == "post1"
         assert result["score"] == 100
         assert "[EMAIL_REDACTED]" in result["title"]
@@ -217,11 +209,11 @@ class TestPostPIIStripping:
             "id": "post1",
             "title": "Normal post title",
             "text": "Normal post content",
-            "score": 100
+            "score": 100,
         }
-        
+
         result = strip_pii_from_post(post)
-        
+
         assert result == post
 
     def test_strip_post_non_dict(self):
@@ -237,7 +229,7 @@ class TestSanitizeForDisplay:
         """Test sanitizing string input."""
         text = "Contact: user@example.com, Phone: 555-123-4567"
         result = sanitize_for_display(text)
-        
+
         assert "[EMAIL_REDACTED]" in result
         assert "[PHONE_REDACTED]" in result
         assert "user@example.com" not in result
@@ -245,13 +237,10 @@ class TestSanitizeForDisplay:
 
     def test_sanitize_dict(self):
         """Test sanitizing dict input."""
-        data = {
-            "title": "Email: user@example.com",
-            "body": "Phone: 555-123-4567"
-        }
-        
+        data = {"title": "Email: user@example.com", "body": "Phone: 555-123-4567"}
+
         result = sanitize_for_display(data)
-        
+
         assert "[EMAIL_REDACTED]" in result["title"]
         assert "[PHONE_REDACTED]" in result["body"]
         assert "user@example.com" not in result["title"]
@@ -259,13 +248,10 @@ class TestSanitizeForDisplay:
 
     def test_sanitize_list(self):
         """Test sanitizing list input."""
-        data = [
-            "Email: user@example.com",
-            {"body": "Phone: 555-123-4567"}
-        ]
-        
+        data = ["Email: user@example.com", {"body": "Phone: 555-123-4567"}]
+
         result = sanitize_for_display(data)
-        
+
         assert "[EMAIL_REDACTED]" in result[0]
         assert "[PHONE_REDACTED]" in result[1]["body"]
         assert "user@example.com" not in result[0]

@@ -6,9 +6,10 @@ safe to be executed by CI (weekly schedule) and locally for development.
 
 from __future__ import annotations
 
-from typing import Any
 from datetime import UTC, datetime, timedelta
+from typing import Any
 
+from .clients.reddit import RedditClient
 from .config import settings
 from .llm.embeddings import embed_texts
 from .llm.insights import generate_insights_from_summaries
@@ -17,7 +18,6 @@ from .models import Post
 from .ranking import rank_posts
 from .storage.supabase import upsert_embedding, upsert_insight
 from .utils import get_json_logger
-from .clients.reddit import RedditClient
 
 log = get_json_logger("reddit_pipeline.run")
 
@@ -48,10 +48,13 @@ def fetch_sources() -> list[Post]:
         per_sub = max(1, min(10, settings.top_n_posts))
         fetched = reddit.fetch_top_submissions(subs, since, per_sub)
         # Filter to window and minimum comments (configurable)
-        posts.extend([
-            p for p in fetched
-            if p.created_utc >= since and p.num_comments > max(0, settings.reddit_min_comments)
-        ])
+        posts.extend(
+            [
+                p
+                for p in fetched
+                if p.created_utc >= since and p.num_comments > max(0, settings.reddit_min_comments)
+            ]
+        )
     except Exception as exc:  # pragma: no cover
         log.error("Reddit fetch failed", extra={"error": str(exc)})
 
@@ -100,26 +103,28 @@ def process(posts: list[Post]) -> list[Post]:
 
     # Persist insights JSON per-post
     for post_id, data in insights.items():
-        upsert_insight({
-            "id": post_id,  # using post_id as temporary stable key; real impl should use UUID
-            "post_id": post_id,
-            "summary": summaries.get(post_id, {}).get("summary"),
-            "pain_points": summaries.get(post_id, {}).get("pain_points"),
-            "recommendations": summaries.get(post_id, {}).get("recommendations"),
-            "segments": summaries.get(post_id, {}).get("segments"),
-            "tools_mentioned": summaries.get(post_id, {}).get("tools_mentioned"),
-            "contrarian_take": summaries.get(post_id, {}).get("contrarian_take"),
-            "key_metrics": summaries.get(post_id, {}).get("key_metrics"),
-            "evidence_links": summaries.get(post_id, {}).get("sources"),
-            "freelancer_actions": data.get("freelancer_actions"),
-            "client_playbook": data.get("client_playbook"),
-            "measurement": data.get("measurement"),
-            "risk_watchouts": data.get("risk_watchouts"),
-            "draft_titles": data.get("draft_titles"),
-            "confidence": data.get("confidence"),
-            "llm_model": settings.llm_model_munger,
-            "prompt_version": "v1",
-        })
+        upsert_insight(
+            {
+                "id": post_id,  # using post_id as temporary stable key; real impl should use UUID
+                "post_id": post_id,
+                "summary": summaries.get(post_id, {}).get("summary"),
+                "pain_points": summaries.get(post_id, {}).get("pain_points"),
+                "recommendations": summaries.get(post_id, {}).get("recommendations"),
+                "segments": summaries.get(post_id, {}).get("segments"),
+                "tools_mentioned": summaries.get(post_id, {}).get("tools_mentioned"),
+                "contrarian_take": summaries.get(post_id, {}).get("contrarian_take"),
+                "key_metrics": summaries.get(post_id, {}).get("key_metrics"),
+                "evidence_links": summaries.get(post_id, {}).get("sources"),
+                "freelancer_actions": data.get("freelancer_actions"),
+                "client_playbook": data.get("client_playbook"),
+                "measurement": data.get("measurement"),
+                "risk_watchouts": data.get("risk_watchouts"),
+                "draft_titles": data.get("draft_titles"),
+                "confidence": data.get("confidence"),
+                "llm_model": settings.llm_model_munger,
+                "prompt_version": "v1",
+            }
+        )
 
     return selected
 
@@ -141,5 +146,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-

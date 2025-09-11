@@ -95,7 +95,7 @@ def _call_openai(messages: list[dict[str, str]]) -> dict[str, Any]:
             "tools_mentioned": [],
             "contrarian_take": "",
             "key_metrics": [],
-            "sources": []
+            "sources": [],
         }
 
 
@@ -135,8 +135,7 @@ def summarise_posts_with_comments(
                     "Provide post title + selftext + top comments (with scores).\n"
                     "Return strict JSON with keys: summary, pain_points[], "
                     "recommendations[], segments[], tools_mentioned[], contrarian_take, "
-                    "key_metrics[], sources[].\n\n"
-                    + user_content
+                    "key_metrics[], sources[].\n\n" + user_content
                 ),
             },
         ]
@@ -145,5 +144,3 @@ def summarise_posts_with_comments(
         results[post.id] = payload
 
     return results
-
-

@@ -49,7 +49,8 @@ class RedditClient:
             for sub in subs:
                 subreddit = reddit.subreddit(sub)
                 for submission in subreddit.hot(limit=limit_per_sub):
-                    created_dt = datetime.fromtimestamp(getattr(submission, "created_utc", 0), tz=UTC)
+                    created_raw = getattr(submission, "created_utc", 0)
+                    created_dt = datetime.fromtimestamp(created_raw, tz=UTC)
                     posts.append(
                         Post(
                             id=str(getattr(submission, "id", "")),
@@ -60,7 +61,13 @@ class RedditClient:
                             score=int(getattr(submission, "score", 0)),
                             num_comments=int(getattr(submission, "num_comments", 0)),
                             created_utc=created_dt,
-                            subreddit=str(getattr(getattr(submission, "subreddit", None), "display_name", sub)),
+                            subreddit=str(
+                                getattr(
+                                    getattr(submission, "subreddit", None),
+                                    "display_name",
+                                    sub,
+                                )
+                            ),
                             text=str(getattr(submission, "selftext", "")) or None,
                         )
                     )
@@ -100,5 +107,3 @@ class RedditClient:
         except Exception as exc:  # pragma: no cover - path validated via tests
             log.error("Failed to fetch comments", extra={"post_id": post_id, "error": str(exc)})
             return []
-
-

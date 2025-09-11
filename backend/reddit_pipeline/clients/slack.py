@@ -18,5 +18,3 @@ class SlackClient:
     def post_message(self, channel: str, text: str) -> None:
         log.info("Posting Slack message", extra={"channel": channel, "len": len(text)})
         # TODO: Implement via Slack Web API if enabled
-
-

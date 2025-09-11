@@ -12,6 +12,7 @@ from ..utils import get_json_logger, retry_with_backoff
 
 log = get_json_logger("reddit_pipeline.llm.embeddings")
 
+
 @retry_with_backoff()
 def embed_texts(texts: list[str]) -> list[list[float]]:
     """Create embeddings for a batch of texts.
@@ -32,7 +33,7 @@ def embed_texts(texts: list[str]) -> list[list[float]]:
     vectors = [d.embedding for d in resp.data]
     dim = settings.embeddings_dim
     # Map back to original order, pad/truncate to configured dim for safety
-    result: list[list[float]] = [[ ] for _ in texts]
+    result: list[list[float]] = [[] for _ in texts]
     for (orig_idx, _), vec in zip(indexed, vectors):
         if len(vec) > dim:
             vec = vec[:dim]
@@ -44,5 +45,3 @@ def embed_texts(texts: list[str]) -> list[list[float]]:
         if not t or not t.strip():
             result[i] = []
     return result
-
-

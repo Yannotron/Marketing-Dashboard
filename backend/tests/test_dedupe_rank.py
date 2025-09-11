@@ -33,5 +33,3 @@ def test_rank_posts():
     ranked = rank_posts(posts)
     assert ranked[0].id == "3"
     assert ranked[-1].id == "1"
-
-

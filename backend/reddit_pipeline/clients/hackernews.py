@@ -32,7 +32,9 @@ class HackerNewsClient:
                             id=str(hit.get("objectID", "")),
                             source="hackernews",
                             title=str(hit.get("title") or hit.get("story_title") or ""),
-                            url=str(hit.get("url") or hit.get("story_url") or "https://example.com"),
+                            url=str(
+                                hit.get("url") or hit.get("story_url") or "https://example.com"
+                            ),
                             author=str(hit.get("author", "")),
                             score=int(hit.get("points", 0)),
                             num_comments=int(hit.get("num_comments", 0)),
@@ -45,5 +47,3 @@ class HackerNewsClient:
         except Exception as exc:  # pragma: no cover
             log.error("HN fetch failed", extra={"error": str(exc)})
             return []
-
-
