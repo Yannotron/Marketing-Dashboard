@@ -19,8 +19,8 @@ class Settings(BaseSettings):
     """
 
     # Reddit API
-    reddit_client_id: str = Field(default=..., validation_alias="REDDIT_CLIENT_ID")
-    reddit_client_secret: str = Field(default=..., validation_alias="REDDIT_CLIENT_SECRET")
+    reddit_client_id: str = Field(default="test-id", validation_alias="REDDIT_CLIENT_ID")
+    reddit_client_secret: str = Field(default="test-secret", validation_alias="REDDIT_CLIENT_SECRET")
     reddit_user_agent: str = Field(
         default="reddit-dashboard/0.1.0", validation_alias="REDDIT_USER_AGENT"
     )
@@ -53,8 +53,8 @@ class Settings(BaseSettings):
     reddit_min_comments: int = Field(default=5, validation_alias="REDDIT_MIN_COMMENTS")
 
     # Supabase
-    supabase_url: AnyUrl = Field(default=..., validation_alias="SUPABASE_URL")
-    supabase_anon_key: str = Field(default=..., validation_alias="SUPABASE_ANON_KEY")
+    supabase_url: AnyUrl = Field(default="https://example.com", validation_alias="SUPABASE_URL")
+    supabase_anon_key: str = Field(default="test-anon", validation_alias="SUPABASE_ANON_KEY")
 
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8", "extra": "ignore"}
 
