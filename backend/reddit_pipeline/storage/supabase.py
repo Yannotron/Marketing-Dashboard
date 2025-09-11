@@ -20,6 +20,7 @@ from ..utils import get_json_logger, retry_with_backoff
 
 log = get_json_logger("reddit_pipeline.storage.supabase")
 
+
 class SupabaseStore:
     def __init__(self, url: str, key: str) -> None:
         self.url = url
