@@ -57,6 +57,10 @@ class Settings(BaseSettings):
     # Supabase
     supabase_url: str = Field(default="https://example.com", validation_alias="SUPABASE_URL")
     supabase_anon_key: str = Field(default="test-anon", validation_alias="SUPABASE_ANON_KEY")
+    supabase_service_role_key: str | None = Field(
+        default=None, validation_alias="SUPABASE_SERVICE_ROLE_KEY"
+    )
+    supabase_enable_writes: bool = Field(default=True, validation_alias="SUPABASE_ENABLE_WRITES")
 
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8", "extra": "ignore"}
 
