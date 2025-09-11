@@ -69,3 +69,4 @@ describe('Card Components', () => {
     expect(screen.getByText('Test Footer')).toBeInTheDocument()
   })
 })
+

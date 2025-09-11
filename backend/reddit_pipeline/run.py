@@ -7,6 +7,7 @@ safe to be executed by CI (weekly schedule) and locally for development.
 from __future__ import annotations
 
 from typing import Any
+from datetime import UTC, datetime, timedelta
 
 from .config import settings
 from .llm.embeddings import embed_texts
@@ -16,6 +17,7 @@ from .models import Post
 from .ranking import rank_posts
 from .storage.supabase import upsert_embedding, upsert_insight
 from .utils import get_json_logger
+from .clients.reddit import RedditClient
 
 log = get_json_logger("reddit_pipeline.run")
 
@@ -23,11 +25,37 @@ log = get_json_logger("reddit_pipeline.run")
 def fetch_sources() -> list[Post]:
     """Fetch items from enabled sources.
 
-    This is a placeholder implementation. Replace with concrete client calls.
+    Currently enables Reddit only (HN/PH disabled by default via settings).
     """
 
     log.info("Fetching sources...")
-    return []
+
+    posts: list[Post] = []
+
+    # Reddit fetch (enabled by default via required secrets)
+    try:
+        reddit = RedditClient(
+            client_id=settings.reddit_client_id,
+            client_secret=settings.reddit_client_secret,
+            user_agent=settings.reddit_user_agent,
+        )
+        # Fetch last N days (configurable) for a small curated list of subs
+        since = datetime.now(UTC) - timedelta(days=max(1, settings.reddit_lookback_days))
+        subs = [
+            "technology",
+            "programming",
+        ]
+        per_sub = max(1, min(10, settings.top_n_posts))
+        fetched = reddit.fetch_top_submissions(subs, since, per_sub)
+        # Filter to window and minimum comments (configurable)
+        posts.extend([
+            p for p in fetched
+            if p.created_utc >= since and p.num_comments > max(0, settings.reddit_min_comments)
+        ])
+    except Exception as exc:  # pragma: no cover
+        log.error("Reddit fetch failed", extra={"error": str(exc)})
+
+    return posts
 
 
 def process(posts: list[Post]) -> list[Post]:

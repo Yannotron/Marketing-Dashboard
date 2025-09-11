@@ -75,3 +75,4 @@ describe('Supabase Client', () => {
     expect(error).toEqual({ message: 'Database error' })
   })
 })
+

@@ -23,9 +23,9 @@ class Settings(BaseSettings):
     reddit_client_secret: str = Field(..., env="REDDIT_CLIENT_SECRET")
     reddit_user_agent: str = Field("reddit-dashboard/0.1.0", env="REDDIT_USER_AGENT")
 
-    # Optional external sources
-    hackernews_enabled: bool = Field(True, env="HACKERNEWS_ENABLED")
-    producthunt_enabled: bool = Field(True, env="PRODUCTHUNT_ENABLED")
+    # Optional external sources (disabled by default until API access is configured)
+    hackernews_enabled: bool = Field(False, env="HACKERNEWS_ENABLED")
+    producthunt_enabled: bool = Field(False, env="PRODUCTHUNT_ENABLED")
 
     # LLM / embeddings
     openai_api_key: str | None = Field(None, env="OPENAI_API_KEY")
@@ -39,6 +39,10 @@ class Settings(BaseSettings):
     top_k_comments: int = Field(5, env="TOP_K_COMMENTS")
     summariser_max_input_tokens: int = Field(4000, env="SUMMARISER_MAX_INPUT_TOKENS")
     http_timeout_seconds: int = Field(60, env="HTTP_TIMEOUT_SECONDS")
+
+    # Reddit fetch controls
+    reddit_lookback_days: int = Field(30, env="REDDIT_LOOKBACK_DAYS")
+    reddit_min_comments: int = Field(5, env="REDDIT_MIN_COMMENTS")
 
     # Supabase
     supabase_url: AnyUrl = Field(..., env="SUPABASE_URL")

@@ -1,6 +1,7 @@
 """Unit tests for utility functions."""
 
 import json
+import logging
 import time
 from unittest.mock import patch
 

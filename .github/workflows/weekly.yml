@@ -37,7 +37,7 @@ jobs:
           mypy .
           pytest -q
 
-      - name: Validate required secrets
+      - name: Validate required secrets (minimal)
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
@@ -50,7 +50,8 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           missing=0
-          for var in SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY OPENAI_API_KEY REDDIT_CLIENT_ID REDDIT_CLIENT_SECRET REDDIT_USER_AGENT PH_API_TOKEN SLACK_WEBHOOK_URL; do
+          # Minimal set for running tests and a dry-run pipeline without HN/PH/Slack
+          for var in SUPABASE_URL SUPABASE_ANON_KEY SUPABASE_SERVICE_ROLE_KEY OPENAI_API_KEY REDDIT_CLIENT_ID REDDIT_CLIENT_SECRET REDDIT_USER_AGENT; do
             if [ -z "${!var}" ]; then
               echo "::error title=Missing secret::$var is not set"
               missing=1
@@ -70,8 +71,16 @@ jobs:
           REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
           REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
           REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
+          # Optional (currently unused while features disabled)
           PH_API_TOKEN: ${{ secrets.PH_API_TOKEN }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          HACKERNEWS_ENABLED: "false"
+          PRODUCTHUNT_ENABLED: "false"
+          # Conservative defaults
+          TOP_N_POSTS: "10"
+          TOP_K_COMMENTS: "0"
+          REDDIT_LOOKBACK_DAYS: "30"
+          REDDIT_MIN_COMMENTS: "5"
         run: python -m reddit_pipeline.run
 
 

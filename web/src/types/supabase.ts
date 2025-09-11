@@ -358,3 +358,4 @@ export type CommentUpdate = TablesUpdate<'comments'>
 export type Insight = Tables<'insights'>
 export type InsightInsert = TablesInsert<'insights'>
 export type InsightUpdate = TablesUpdate<'insights'>
+
