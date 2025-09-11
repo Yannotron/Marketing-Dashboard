@@ -9,7 +9,7 @@ from collections.abc import Iterable
 from typing import Any
 
 try:  # import optional dependency (third-party)
-    from supabase import Client, create_client  # type: ignore
+    from supabase import Client, create_client
 except Exception:  # pragma: no cover
     Client = Any  # type: ignore
     create_client = None  # type: ignore
